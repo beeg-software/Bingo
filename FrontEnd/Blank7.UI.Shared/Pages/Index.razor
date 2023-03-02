@@ -1,11 +1,9 @@
-﻿@inject IUserService UserService
-
-@page "/"
+﻿@page "/"
 
 <PageTitle>Index</PageTitle>
 
 <h5>Users:</h5>
-
-@code {
-
+@foreach(var user in _users)
+{
+    <span>@user</span><br />
 }

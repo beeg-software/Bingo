@@ -16,4 +16,8 @@
 	<ProjectReference Include="..\Blank7.UI.Shared\Blank7.UI.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
+  </ItemGroup>
+
 </Project>

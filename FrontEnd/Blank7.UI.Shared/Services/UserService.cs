@@ -6,7 +6,7 @@
         {
         }
 
-        public Task<List<string>> GetUsers()
+        public Task<List<string>> GetUsersAsync()
         {
             return Task.FromResult(new List<string>()
             {
