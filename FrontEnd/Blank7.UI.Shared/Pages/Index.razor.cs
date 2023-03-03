@@ -8,7 +8,7 @@ namespace Blank7.UI.Shared.Pages
     {
         #pragma warning disable CS8618
         [Inject] protected IJSRuntime JSRuntime { get; set; }
-#pragma warning restore CS8618
+        #pragma warning restore CS8618
 
         [Inject] protected IUserService UserService { get; set; }
 
