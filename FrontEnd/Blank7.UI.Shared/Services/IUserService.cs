@@ -1,7 +1,9 @@
-﻿namespace Blank7.UI.Shared.Services
+﻿using Blank7.Common.DomainModel.MasterData;
+
+namespace Blank7.UI.Shared.Services
 {
     public interface IUserService
     {
-        Task<List<string>> GetUsersAsync();
+        Task<List<User>> GetUsersAsync();
     }
 }

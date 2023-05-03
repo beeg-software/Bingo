@@ -1,6 +1,7 @@
 ﻿using Blank7.UI.Shared.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using Blank7.Common.DomainModel.MasterData;
 
 namespace Blank7.UI.Shared.Pages
 {
@@ -12,7 +13,7 @@ namespace Blank7.UI.Shared.Pages
 
         [Inject] protected IUserService UserService { get; set; }
 
-        private List<string> _users = new List<string>();
+        private List<User> _users = new List<User>();
 
         protected override async Task OnInitializedAsync()
         {

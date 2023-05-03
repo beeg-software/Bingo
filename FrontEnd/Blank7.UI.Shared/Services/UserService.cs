@@ -1,19 +1,21 @@
-﻿namespace Blank7.UI.Shared.Services
+﻿using Blank7.Common.DomainModel.MasterData;
+using System.Net.Http.Json;
+
+namespace Blank7.UI.Shared.Services
 {
     public class UserService : IUserService
     {
-        public UserService()
+        private readonly HttpClient _http;
+
+        public UserService(HttpClient http)
         {
+            _http = http;
         }
 
-        public Task<List<string>> GetUsersAsync()
+        public async Task<List<User>> GetUsersAsync()
         {
-            return Task.FromResult(new List<string>()
-            {
-                "User1",
-                "User2",
-                "User3"
-            });
+            var users = await _http.GetFromJsonAsync<List<User>>($"api/User/");
+            return users;
         }
     }
 }

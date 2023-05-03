@@ -1,6 +1,6 @@
-﻿using Blank7.Common.DomainModel;
+﻿using Blank7.Common.DomainModel.MasterData;
 
-namespace Blank7.Common.ApiModel
+namespace Blank7.Common.ApiModel.MasterData
 {
     public class UserResponse
     {
