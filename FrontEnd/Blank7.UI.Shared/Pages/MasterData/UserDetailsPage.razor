@@ -1,0 +1,13 @@
+﻿@page "/MasterData/UserDetails/{Id:guid}"
+@using Blank7.UI.Shared.Components.MasterData
+
+<PageTitle>UserDetails</PageTitle>
+
+<h3>User Details</h3>
+
+<UserDetails Id="@Id" />
+
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
+}

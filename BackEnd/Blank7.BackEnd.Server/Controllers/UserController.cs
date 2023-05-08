@@ -51,7 +51,7 @@ namespace Blank7.Server.Controllers
             return Ok(user);
         }
 
-        // POST: api/users
+        // POST: api/user
         [HttpPost]
         public async Task<ActionResult<User>> InsertUser(User request)
         {
@@ -63,11 +63,11 @@ namespace Blank7.Server.Controllers
         }
 
 
-        // PUT: api/user/{id}
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(Guid id, User request)
+        // PUT: api/user
+        [HttpPut]
+        public async Task<IActionResult> UpdateUser(User request)
         {
-            var updatedUser = await _context.Users.FindAsync(id);
+            var updatedUser = await _context.Users.FindAsync(request.Id);
             if (updatedUser == null)
             {
                 return NotFound();

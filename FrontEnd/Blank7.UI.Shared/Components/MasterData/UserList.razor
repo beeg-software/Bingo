@@ -1,0 +1,62 @@
+﻿<!-- Display a loader while waiting for data -->
+@if (_isLoading)
+{
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+}
+else
+{
+    <form>
+        <!-- Create a table with a responsive design, using the "table" class -->
+        <table class="table">
+            <!-- Define the table headers within the <thead> tag -->
+            <thead>
+                <tr>
+                    <th>
+                        <!-- Create a "Select All" checkbox, bound to the _selectAll variable -->
+                        <!-- When clicked, it toggles the selection of all users using the ToggleSelectAll method -->
+                        <input type="checkbox" @bind="_selectAll" @onclick="ToggleSelectAll" />
+                    </th>
+                    <th>Prog.</th>
+                    <th>Nome</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Initialize _progCount to 1, which will be used to display the program count for each user -->
+                @{
+                    _progCount = 1;
+                }
+                <!-- Iterate over the _userListUI list, sorting it by the Id property -->
+                @foreach (var user in _userListUI.OrderBy(us => us.Id))
+                {
+                    <!-- Create a new table row for each user -->
+                    <tr>
+                        <td>
+                            <!-- Bind a checkbox to the Selected property of the current user -->
+                            <input type="checkbox" @bind="user.Selected" />
+                        </td>
+                        <td>
+                            <!-- Display the _progCount variable, incrementing it for each iteration -->
+                    @_progCount
+                        </td>
+                        <td>
+                            <!-- Display the user's name as a link to their details page, using their IdString -->
+                            <a href="/Masterdata/UserDetails/@user.IdString">@user.Name</a>
+                        </td>
+                    </tr>
+                    <!-- Increment the _progCount variable -->
+                    _progCount = _progCount + 1;
+                }
+            </tbody>
+        </table>
+        <!-- Create a "New user" button with an onclick event that calls the NavigateToNewUser() method -->
+        <button type="button" class="btn btn-success" @onclick="() => NavigateToNewUser()">New user</button>
+        <!-- Create a "Delete Selected Users" button with an onclick event that calls the ConfirmDeleteUsers() method -->
+        <button type="button" class="btn btn-danger" @onclick="() => ConfirmDeleteUsers()">Delete Selected Users</button>
+        <!-- Download the data as a CSV file -->
+        <button type="button" class="btn btn-info" @onclick="() => ExportToCSV()">Export to CSV</button>
+    </form>
+}
