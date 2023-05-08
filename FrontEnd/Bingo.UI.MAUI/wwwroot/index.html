@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>Bingo</title>
+    <base href="/" />
+    <link href="_content/Bingo.UI.Shared/favicon.ico" rel="icon" type="image/x-icon" />
+    <link href="_content/Bingo.UI.Shared/external-resources/bootstrap-5.2.0/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="_content/Bingo.UI.Shared/css/app.css" rel="stylesheet" />
+    <link href="Bingo.UI.MAUI.styles.css" rel="stylesheet" />
+</head>
+
+<body>
+
+    <div class="status-bar-safe-area"></div>
+
+    <div id="app">Loading...</div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+
+    <script src="_framework/blazor.webview.js" autostart="false"></script>
+
+    <script>
+        function downloadCSV(filename, csvData) {
+            var blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+            var link = document.createElement("a");
+            var url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", filename);
+            link.style.visibility = "hidden";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+
+    <script src="_content/Bingo.UI.Shared/external-resources/bootstrap-5.2.0/js/bootstrap.min.js" crossorigin="anonymous"></script>
+
+    <script type="module" src="_content/Bingo.UI.Shared/js/interop.js"></script>
+</body>
+
+</html>
