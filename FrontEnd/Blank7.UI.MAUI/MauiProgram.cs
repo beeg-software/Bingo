@@ -1,46 +1,51 @@
 ﻿using Microsoft.Extensions.Logging;
 using Blank7.UI.Shared.Services;
-using System.Net.Http;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.Json;
 
-namespace Blank7.UI.MAUI;
-
-public static class MauiProgram
+namespace Blank7.UI.MAUI
 {
-    public static MauiApp CreateMauiApp()
+    public static class MauiProgram
     {
-        var builder = MauiApp.CreateBuilder();
+        public static MauiApp CreateMauiApp()
+        {
+            var builder = MauiApp.CreateBuilder();
 
-        // Load appsettings.json manually
-        builder.Configuration.AddJsonFile("appsettings.json");
+            // Load the appsettings.json configuration file
+            builder.Configuration.AddJsonFile("appsettings.json");
 
-        builder
-            .UseMauiApp<App>()
-            .ConfigureFonts(fonts =>
-            {
-                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-            });
+            // Configure the Maui app and fonts
+            builder
+                .UseMauiApp<App>()
+                .ConfigureFonts(fonts =>
+                {
+                    fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+                });
 
-        builder.Services.AddMauiBlazorWebView();
+            // Add Maui Blazor WebView support
+            builder.Services.AddMauiBlazorWebView();
 
+            // Add developer tools and debug logging for Debug builds
 #if DEBUG
-        builder.Services.AddBlazorWebViewDeveloperTools();
-        builder.Logging.AddDebug();
+            builder.Services.AddBlazorWebViewDeveloperTools();
+            builder.Logging.AddDebug();
 #endif
 
-        var apiConfigurationSection = builder.Configuration.GetSection("ApiConfiguration");
-        string baseAddress = apiConfigurationSection.GetValue<string>("BaseAddress");
+            // Retrieve the API configuration and validate the base address
+            var apiConfigurationSection = builder.Configuration.GetSection("ApiConfiguration");
+            string baseAddress = apiConfigurationSection.GetValue<string>("BaseAddress");
 
-        if (string.IsNullOrEmpty(baseAddress))
-        {
-            throw new InvalidOperationException("The API base address is not configured.");
+            if (string.IsNullOrEmpty(baseAddress))
+            {
+                throw new InvalidOperationException("The API base address is not configured.");
+            }
+
+            // Register the HttpClient with the configured base address
+            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(baseAddress) });
+
+            // Register the IUserService implementation
+            builder.Services.AddScoped<IUserService, UserService>();
+
+            return builder.Build();
         }
-
-        builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(baseAddress) });
-
-        builder.Services.AddScoped<IUserService, UserService>();
-
-        return builder.Build();
     }
 }

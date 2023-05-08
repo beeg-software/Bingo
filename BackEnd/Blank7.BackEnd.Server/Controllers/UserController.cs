@@ -1,5 +1,7 @@
+using Blank7.BackEnd.Persistance.Entities;
 using Blank7.Common.DomainModel.MasterData;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Xml.Linq;
 
 namespace Blank7.Server.Controllers
@@ -8,35 +10,38 @@ namespace Blank7.Server.Controllers
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
-        private List<User> Users = new List<User>();
-
+        private readonly ApplicationDbContext _context;
         private readonly ILogger<UserController> _logger;
 
-        public UserController(ILogger<UserController> logger)
+        public UserController(ILogger<UserController> logger, ApplicationDbContext context)
         {
             _logger = logger;
-
-            Users.Add(new User(Guid.NewGuid(), "User1", DateTime.UtcNow));
-            Users.Add(new User(Guid.NewGuid(), "User2", DateTime.UtcNow));
-            Users.Add(new User(Guid.NewGuid(), "User3", DateTime.UtcNow));
+            _context = context;
         }
 
         // GET: api/user
         [HttpGet]
-        public ActionResult<List<User>> GetUsers()
+        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-            return Ok(Users);
+            var users = new List<User>();
+            try
+            {
+                users = await _context.Users.ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error while getting users");
+                return StatusCode(500, $"Error accessing the database: {ex.Message}");
+            }
+
+            return Ok(users);
         }
 
         // GET: api/user/{id}
-        [HttpGet("{Id}")]
-        public ActionResult<User> GetUserById(string Id)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<User>> GetUserById(Guid id)
         {
-            Guid _id = new Guid(Id);
-
-            User user = null;
-
-            user = Users.FirstOrDefault(us => us.Id == _id);
+            var user = await _context.Users.FindAsync(id);
 
             if (user == null)
             {
@@ -50,17 +55,19 @@ namespace Blank7.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> InsertUser(User request)
         {
-            User newUser = new User(Guid.NewGuid(), request.Name, DateTime.UtcNow);
-            Users.Add(newUser);
+            var newUser = new User(Guid.NewGuid(), request.Name, DateTime.UtcNow);
+            _context.Users.Add(newUser);
+            await _context.SaveChangesAsync();
 
-            return Ok(newUser);
+            return CreatedAtAction(nameof(GetUserById), new { id = newUser.Id }, newUser);
         }
+
 
         // PUT: api/user/{id}
         [HttpPut("{id}")]
-        public async Task<ActionResult<User>> UpdateUser(Guid id, [FromBody] User request)
+        public async Task<IActionResult> UpdateUser(Guid id, User request)
         {
-            User updatedUser = Users.FirstOrDefault(us => us.Id == id);
+            var updatedUser = await _context.Users.FindAsync(id);
             if (updatedUser == null)
             {
                 return NotFound();
@@ -68,20 +75,24 @@ namespace Blank7.Server.Controllers
 
             updatedUser.Name = request.Name;
             updatedUser.TimeStamp = DateTime.UtcNow;
+
+            _context.Update(updatedUser);
+            await _context.SaveChangesAsync();
             return Ok(updatedUser);
         }
 
         // DELETE: api/user/{id}
         [HttpDelete("{id}")]
-        public async Task<ActionResult<User>> DeleteUser(Guid id)
+        public async Task<IActionResult> DeleteUser(Guid id)
         {
-            var userToDelete = Users.FirstOrDefault(u => u.Id == id);
+            var userToDelete = await _context.Users.FindAsync(id);
             if (userToDelete == null)
             {
                 return NotFound();
             }
 
-            Users.Remove(userToDelete);
+            _context.Users.Remove(userToDelete);
+            await _context.SaveChangesAsync();
             return NoContent();
         }
     }

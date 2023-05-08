@@ -1,22 +1,30 @@
 using Blank7.UI.Shared.Services;
 
+// Create a WebApplication builder
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Configure services for the application
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<IUserService, UserService>();
 
-// Load the ApiConfiguration section and retrieve the BaseAddress value
+// Retrieve the API configuration and validate the base address
 var apiConfigurationSection = builder.Configuration.GetSection("ApiConfiguration");
 string baseAddress = apiConfigurationSection.GetValue<string>("BaseAddress");
 
-// Register HttpClient as a scoped service
+// Check if the base address is configured, otherwise throw an exception
+if (string.IsNullOrEmpty(baseAddress))
+{
+    throw new InvalidOperationException("The API base address is not configured.");
+}
+
+// Register the HttpClient with the configured base address
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(baseAddress) });
 
+// Build the WebApplication
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configure the HTTP request pipeline
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
@@ -24,13 +32,14 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+// Configure HTTPS redirection, static files, and routing
 app.UseHttpsRedirection();
-
 app.UseStaticFiles();
-
 app.UseRouting();
 
+// Configure Blazor Hub and fallback routing
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 
+// Run the WebApplication
 app.Run();
