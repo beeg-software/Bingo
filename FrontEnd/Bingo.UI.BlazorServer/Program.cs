@@ -7,6 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ICompetitorCategoryService, CompetitorCategoryService>();
+//builder.Services.AddScoped<ICompetitorService, CompetitorService>();
 
 // Retrieve the API configuration and validate the base address
 var apiConfigurationSection = builder.Configuration.GetSection("ApiConfiguration");

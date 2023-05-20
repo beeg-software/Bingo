@@ -3,6 +3,7 @@ using System;
 using Bingo.BackEnd.Persistance.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,23 +11,97 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bingo.BackEnd.Persistance.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230509000010_ImportOriginalModel")]
+    partial class ImportOriginalModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.5");
 
-            modelBuilder.Entity("Bingo.Common.DomainModel.MasterData.CompetitorCategory", b =>
+            modelBuilder.Entity("Bingo.Common.DomainModel.MasterData.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("CreationTimeStamp")
+                    b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("LastUpdateTimeStamp")
+                    b.Property<DateTime>("TimeStamp")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Bingo.DomainModel.Competitor", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Boat")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("CompetitorCategoryId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Engine")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ImportNumber")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name1")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name2")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name3")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name4")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Nationality")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Number")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Team")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Competitors");
+                });
+
+            modelBuilder.Entity("Bingo.DomainModel.CompetitorCategory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
@@ -38,7 +113,7 @@ namespace Bingo.BackEnd.Persistance.Migrations
                     b.ToTable("CompetitorCategories");
                 });
 
-            modelBuilder.Entity("Bingo.Common.DomainModel.MasterData.Sector", b =>
+            modelBuilder.Entity("Bingo.DomainModel.Sector", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -70,7 +145,7 @@ namespace Bingo.BackEnd.Persistance.Migrations
                     b.ToTable("Sectors");
                 });
 
-            modelBuilder.Entity("Bingo.Common.DomainModel.MasterData.SectorTime", b =>
+            modelBuilder.Entity("Bingo.DomainModel.SectorTime", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -106,7 +181,7 @@ namespace Bingo.BackEnd.Persistance.Migrations
                     b.ToTable("SectorTimes");
                 });
 
-            modelBuilder.Entity("Bingo.Common.DomainModel.MasterData.Session", b =>
+            modelBuilder.Entity("Bingo.DomainModel.Session", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -121,7 +196,7 @@ namespace Bingo.BackEnd.Persistance.Migrations
                     b.ToTable("Sessions");
                 });
 
-            modelBuilder.Entity("Bingo.Common.DomainModel.MasterData.SessionSector", b =>
+            modelBuilder.Entity("Bingo.DomainModel.SessionSector", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -139,27 +214,6 @@ namespace Bingo.BackEnd.Persistance.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SessionSectors");
-                });
-
-            modelBuilder.Entity("Bingo.Common.DomainModel.MasterData.User", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("CreationTimeStamp")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("LastUpdateTimeStamp")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
                 });
 #pragma warning restore 612, 618
         }

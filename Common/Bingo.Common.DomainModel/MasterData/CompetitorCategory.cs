@@ -2,12 +2,12 @@
 
 namespace Bingo.Common.DomainModel.MasterData
 {
-    public class User
+    public class CompetitorCategory
     {
         [Required]
         public Guid Id { get; set; }
 
-        public string Name { get; set; } = string.Empty;
+        public string Name { get; set; }
 
         public DateTime CreationTimeStamp { get; set; }
 

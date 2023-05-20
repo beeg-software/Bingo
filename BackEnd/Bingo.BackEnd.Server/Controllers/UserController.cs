@@ -2,9 +2,8 @@ using Bingo.BackEnd.Persistance.Entities;
 using Bingo.Common.DomainModel.MasterData;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Xml.Linq;
 
-namespace Bingo.Server.Controllers
+namespace Bingo.BackEnd.Server.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -55,7 +54,12 @@ namespace Bingo.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> InsertUser(User request)
         {
-            var newUser = new User(Guid.NewGuid(), request.Name, DateTime.UtcNow);
+            var newUser = new User();
+            newUser.Id = Guid.NewGuid();
+            newUser.Name = request.Name;
+            var timeStamp = DateTime.UtcNow;
+            newUser.CreationTimeStamp = timeStamp;
+            newUser.LastUpdateTimeStamp = timeStamp;
             _context.Users.Add(newUser);
             await _context.SaveChangesAsync();
 
@@ -65,7 +69,7 @@ namespace Bingo.Server.Controllers
 
         // PUT: api/user
         [HttpPut]
-        public async Task<IActionResult> UpdateUser(User request)
+        public async Task<ActionResult<User>> UpdateUser(User request)
         {
             var updatedUser = await _context.Users.FindAsync(request.Id);
             if (updatedUser == null)
@@ -74,7 +78,7 @@ namespace Bingo.Server.Controllers
             }
 
             updatedUser.Name = request.Name;
-            updatedUser.TimeStamp = DateTime.UtcNow;
+            updatedUser.LastUpdateTimeStamp = DateTime.UtcNow;
 
             _context.Update(updatedUser);
             await _context.SaveChangesAsync();

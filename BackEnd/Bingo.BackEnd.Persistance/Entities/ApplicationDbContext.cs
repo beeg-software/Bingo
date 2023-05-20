@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Bingo.Common.DomainModel.MasterData;
+﻿using Bingo.Common.DomainModel.MasterData;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using System.Reflection;
@@ -14,6 +14,12 @@ namespace Bingo.BackEnd.Persistance.Entities
         }
 
         public DbSet<User> Users { get; set; }
+        //public DbSet<Competitor> Competitors { get; set; }
+        public DbSet<CompetitorCategory> CompetitorCategories { get; set; }
+        public DbSet<Sector> Sectors { get; set; }
+        public DbSet<SectorTime> SectorTimes { get; set; }
+        public DbSet<Session> Sessions { get; set; }
+        public DbSet<SessionSector> SessionSectors { get; set; }
     }
 
     public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>

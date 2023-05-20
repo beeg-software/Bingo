@@ -30,7 +30,7 @@ else
                     _progCount = 1;
                 }
                 <!-- Iterate over the _userListUI list, sorting it by the Id property -->
-                @foreach (var user in _userListUI.OrderBy(us => us.Id))
+                @foreach (var user in _userListUI.OrderBy(us => us.CreatedTimeStamp))
                 {
                     <!-- Create a new table row for each user -->
                     <tr>

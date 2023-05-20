@@ -1,0 +1,31 @@
+﻿@using Bingo.UI.Shared.UIElements.Input
+
+@if(cat == null)
+{
+    <span>Getting data...</span>
+}
+else
+{
+
+    <EditForm Model="@cat" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator/>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <CustomInputGuid @bind-Value="cat.Id" ValidationFor="@(() => cat.Id)" Label="Id" Id="cat_id" ReadOnly=true />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <CustomInputText @bind-Value="cat.Name" ValidationFor="@(() => cat.Name)" Label="Category Name" Id="cat_name" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-primary mt-3">Save</button>
+                </div>
+            </div>
+        </div>
+    </EditForm>
+}

@@ -24,7 +24,11 @@ namespace Bingo.UI.Shared.Components.MasterData
             // Initialize a new User object if the Id is empty, otherwise fetch the user details by Id
             if (Id == Guid.Empty)
             {
-                us = new User(Guid.Empty, "", DateTime.MinValue);
+                us = new User();
+                us.Id = Guid.Empty;
+                us.Name = string.Empty;
+                us.CreationTimeStamp = DateTime.MinValue;
+                us.LastUpdateTimeStamp = DateTime.MinValue;
             }
             else
             {
@@ -39,7 +43,7 @@ namespace Bingo.UI.Shared.Components.MasterData
         private async Task HandleValidSubmit()
         {
             // Initialize a new User object to store the result
-            var result = new User(Guid.Empty, "", DateTime.MinValue);
+            var result = new User();
 
             // Check if the Id is empty, then create a new user, otherwise edit the existing user
             if (Id == Guid.Empty)

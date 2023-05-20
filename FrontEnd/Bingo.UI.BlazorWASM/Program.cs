@@ -22,6 +22,8 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(baseAddr
 
 // Register the IUserService implementation
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ICompetitorCategoryService, CompetitorCategoryService>();
+builder.Services.AddScoped<ICompetitorService, CompetitorService>();
 
 // Build and run the Blazor WebAssembly app
 await builder.Build().RunAsync();

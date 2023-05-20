@@ -38,7 +38,8 @@ namespace Bingo.UI.Shared.Components.MasterData
                 {
                     Id = us.Id,
                     IdString = us.Id.ToString(),
-                    Name = us.Name
+                    Name = us.Name,
+                    CreatedTimeStamp = us.CreationTimeStamp
                 });
             }
 
@@ -127,6 +128,7 @@ namespace Bingo.UI.Shared.Components.MasterData
             public Guid Id { get; set; }
             public string IdString { get; set; }
             public string Name { get; set; }
+            public DateTime CreatedTimeStamp { get; set; }
             public bool Selected { get; set; }
         }
     }

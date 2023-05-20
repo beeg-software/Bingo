@@ -2,12 +2,14 @@
 
 namespace Bingo.Common.DomainModel.MasterData
 {
-    public class User
+    public class Competitor
     {
+        [Key]
         [Required]
         public Guid Id { get; set; }
 
-        public string Name { get; set; } = string.Empty;
+        [Required, MaxLength(15, ErrorMessage = "Lunghezza massima del numero di gara è 20 caratteri")]
+        public string Number { get; set; }
 
         public DateTime CreationTimeStamp { get; set; }
 

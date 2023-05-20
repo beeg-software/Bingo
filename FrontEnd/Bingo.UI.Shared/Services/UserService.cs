@@ -24,7 +24,13 @@ namespace Bingo.UI.Shared.Services
             if (result.StatusCode != System.Net.HttpStatusCode.OK)
             {
                 var message = await result.Content.ReadAsStringAsync();
-                return new User(Guid.NewGuid(), message, DateTime.UtcNow);
+                var newUser = new User();
+                newUser.Name = message;
+                newUser.Id = Guid.Empty;
+                newUser.CreationTimeStamp = DateTime.UtcNow;
+                newUser.LastUpdateTimeStamp = DateTime.UtcNow;
+
+                return newUser;
             }
             else
             {
