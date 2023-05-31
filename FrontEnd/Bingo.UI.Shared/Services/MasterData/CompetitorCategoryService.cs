@@ -1,7 +1,7 @@
 ﻿using Bingo.Common.DomainModel.MasterData;
 using System.Net.Http.Json;
 
-namespace Bingo.UI.Shared.Services
+namespace Bingo.UI.Shared.Services.MasterData
 {
     public class CompetitorCategoryService : ICompetitorCategoryService
     {
@@ -27,8 +27,8 @@ namespace Bingo.UI.Shared.Services
                 var newCompetitorCategory = new CompetitorCategory();
                 newCompetitorCategory.Name = message;
                 newCompetitorCategory.Id = Guid.Empty;
-                newCompetitorCategory.CreationTimeStamp = DateTime.UtcNow;
-                newCompetitorCategory.LastUpdateTimeStamp = DateTime.UtcNow;
+                newCompetitorCategory.CreationTimeStamp = DateTime.MinValue;
+                newCompetitorCategory.LastUpdateTimeStamp = DateTime.MinValue;
 
                 return newCompetitorCategory;
             }

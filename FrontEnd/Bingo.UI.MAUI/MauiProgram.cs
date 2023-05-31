@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
-using Bingo.UI.Shared.Services;
 using Microsoft.Extensions.Configuration;
+using Bingo.UI.Shared.Services.MasterData;
+using Bingo.UI.Shared.Services.Setup;
+using Bingo.UI.Shared.Services.Timing;
 
 namespace Bingo.UI.MAUI
 {
@@ -32,9 +34,9 @@ namespace Bingo.UI.MAUI
 
             // Retrieve the API configuration and validate the base address
             var apiConfigurationSection = builder.Configuration.GetSection("ApiConfiguration");
-            string baseAddress = apiConfigurationSection.GetValue<string>("BaseAddress");
+            string baseAddress = apiConfigurationSection?.GetValue<string>("BaseAddress") ?? string.Empty;
 
-            if (string.IsNullOrEmpty(baseAddress))
+            if (string.IsNullOrWhiteSpace(baseAddress))
             {
                 throw new InvalidOperationException("The API base address is not configured.");
             }
@@ -42,10 +44,14 @@ namespace Bingo.UI.MAUI
             // Register the HttpClient with the configured base address
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(baseAddress) });
 
-            // Register the IUserService implementation
-            builder.Services.AddScoped<IUserService, UserService>();
+            // Register the Services implementation
             builder.Services.AddScoped<ICompetitorCategoryService, CompetitorCategoryService>();
-            builder.Services.AddScoped<ICompetitorService, CompetitorService > ();
+            builder.Services.AddScoped<ICompetitorService, CompetitorService>();
+            builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<ISectorService, SectorService>();
+            builder.Services.AddScoped<ISessionSectorService, SessionSectorService>();
+            builder.Services.AddScoped<ISessionService, SessionService>();
+            builder.Services.AddScoped<ISectorTimeService, SectorTimeService>();
 
             return builder.Build();
         }

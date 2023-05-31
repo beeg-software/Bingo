@@ -1,5 +1,5 @@
 using Bingo.BackEnd.Persistance.Entities;
-using Bingo.Common.DomainModel.MasterData;
+using Bingo.Common.DomainModel.Timing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,6 +1,6 @@
 ﻿// Namespace imports
 using Bingo.Common.DomainModel.MasterData;
-using Bingo.UI.Shared.Services;
+using Bingo.UI.Shared.Services.MasterData;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Text;

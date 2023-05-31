@@ -1,7 +1,7 @@
-﻿using Bingo.UI.Shared.Services;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using Bingo.Common.DomainModel.MasterData;
+using Bingo.UI.Shared.Services.MasterData;
 
 namespace Bingo.UI.Shared.Pages
 {

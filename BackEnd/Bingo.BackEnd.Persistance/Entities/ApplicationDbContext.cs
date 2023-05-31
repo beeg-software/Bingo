@@ -1,4 +1,6 @@
 ﻿using Bingo.Common.DomainModel.MasterData;
+using Bingo.Common.DomainModel.Setup;
+using Bingo.Common.DomainModel.Timing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;

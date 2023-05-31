@@ -1,6 +1,6 @@
 ﻿// Import required namespaces
 using Bingo.Common.DomainModel.MasterData;
-using Bingo.UI.Shared.Services;
+using Bingo.UI.Shared.Services.MasterData;
 using Microsoft.AspNetCore.Components;
 
 // Define the UserDetails component within the Bingo.UI.Shared.Components.MasterData namespace

@@ -1,7 +1,7 @@
 ﻿using Bingo.Common.DomainModel.MasterData;
 using System.Net.Http.Json;
 
-namespace Bingo.UI.Shared.Services
+namespace Bingo.UI.Shared.Services.MasterData
 {
     public class UserService : IUserService
     {
@@ -27,8 +27,8 @@ namespace Bingo.UI.Shared.Services
                 var newUser = new User();
                 newUser.Name = message;
                 newUser.Id = Guid.Empty;
-                newUser.CreationTimeStamp = DateTime.UtcNow;
-                newUser.LastUpdateTimeStamp = DateTime.UtcNow;
+                newUser.CreationTimeStamp = DateTime.MinValue;
+                newUser.LastUpdateTimeStamp = DateTime.MinValue;
 
                 return newUser;
             }

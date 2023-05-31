@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Bingo.Common.DomainModel.MasterData
+namespace Bingo.Common.DomainModel.Setup
 {
     public class Sector
     {

@@ -1,0 +1,48 @@
+﻿@if (_isLoading)
+{
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+}
+else
+{
+    <form>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" @bind="_selectAll" @onclick="ToggleSelectAll" />
+                    </th>
+                    <th>Prog.</th>
+                    <th>Nome1</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    _progCount = 1;
+                }
+                @foreach (var competitor in _competitorListUI.OrderBy(us => us.Id))
+                {
+                    <tr>
+                        <td>
+                            <input type="checkbox" @bind="competitor.Selected" />
+                        </td>
+                        <td>
+                            @_progCount
+                        </td>
+                        <td>
+
+                            <a href="/Masterdata/CompetitorDetails/@competitor.IdString">@competitor.Name1</a>
+                        </td>
+                    </tr>
+                    _progCount = _progCount + 1;
+                }
+            </tbody>
+        </table>
+        <button type="button" class="btn btn-success" @onclick="() => NavigateToNewCompetitor()">New Competitor</button>
+        <button type="button" class="btn btn-danger" @onclick="() => ConfirmDeleteCompetitors()">Delete Competitors</button>
+        <button type="button" class="btn btn-info" @onclick="() => ExportToCSV()">Export to CSV</button>
+    </form>
+}

@@ -1,6 +1,6 @@
 ﻿using Bingo.Common.DomainModel.MasterData;
 
-namespace Bingo.UI.Shared.Services
+namespace Bingo.UI.Shared.Services.MasterData
 {
     public interface IUserService
     {

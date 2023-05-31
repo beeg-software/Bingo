@@ -29,4 +29,11 @@
     <ProjectReference Include="..\..\Common\Bingo.Common.DomainModel\Bingo.Common.DomainModel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Components\Timing\" />
+    <Folder Include="Components\Setup\" />
+    <Folder Include="Pages\Timing\" />
+    <Folder Include="Pages\Setup\" />
+  </ItemGroup>
+
 </Project>
