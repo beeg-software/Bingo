@@ -12,97 +12,87 @@ namespace Bingo.UI.Shared.Components.MasterData
         [Inject] public NavigationManager NavigationManager { get; set; }
         [Inject] public IJSRuntime JSRuntime { get; set; }
 
-        protected List<CompetitorCategory> Categories = new List<CompetitorCategory>();
+        // Properties for component's internal state.
+        protected List<CompetitorCategory> CompetitorCategories = new List<CompetitorCategory>();
         protected List<CompetitorCategoryListUI> _competitorCategoryListUI = new List<CompetitorCategoryListUI>();
-        protected int _progCount = 1;
+        protected int _lineCount = 1;
         protected bool _selectAll;
         protected bool _isLoading = true;
 
-
+        // Component initialization and user data fetch.
         protected override async Task OnInitializedAsync()
         {
             _isLoading = true;
-            Categories = await CompetitorCategoryService.GetCompetitorCategoriesAsync();
-
-            foreach (var ca in Categories)
+            CompetitorCategories = await CompetitorCategoryService.GetCompetitorCategoriesAsync();
+            foreach (var cc in CompetitorCategories)
             {
                 _competitorCategoryListUI.Add(new CompetitorCategoryListUI
                 {
-                    Id = ca.Id,
-                    IdString = ca.Id.ToString(),
-                    Name = ca.Name
+                    Id = cc.Id,
+                    IdString = cc.Id.ToString(),
+                    Name = cc.Name,
+                    CreatedTimeStamp = cc.CreationTimeStamp
                 });
             }
-
             _isLoading = false;
         }
 
+        // Export data to CSV file.
         protected async Task ExportToCSV()
         {
             var stringBuilder = new StringBuilder();
-
             stringBuilder.AppendLine("\"Prog\",\"Nome\"");
-
             int progCount = 1;
-            foreach (var category in _competitorCategoryListUI.OrderBy(us => us.Id))
+            foreach (var cat in _competitorCategoryListUI.OrderBy(us => us.Id))
             {
-                stringBuilder.AppendLine($"\"{progCount}\",\"{category.Name}\"");
+                stringBuilder.AppendLine($"\"{progCount}\",\"{cat.Name}\"");
                 progCount++;
             }
-
-            var csvData = stringBuilder.ToString();
-
-            await JSRuntime.InvokeVoidAsync("downloadCSV", "CompetitorCategoryList.csv", csvData);
+            await JSRuntime.InvokeVoidAsync("downloadCSV", "CompetitorCategoryList.csv", stringBuilder.ToString());
         }
 
+        // Toggle all categories' selection and navigation methods.
         protected void ToggleSelectAll()
         {
             _selectAll = !_selectAll;
-            foreach (var user in _competitorCategoryListUI)
+            foreach (var cat in _competitorCategoryListUI)
             {
-                user.Selected = _selectAll;
+                cat.Selected = _selectAll;
             }
         }
 
-        protected void NavigateToNewCompetitorCategory()
+        protected void NavigateToNewEntity()
         {
-            NavigationManager.NavigateTo($"/Masterdata/CompetitorCategoryDetails/{Guid.Empty}");
+            NavigationManager.NavigateTo($"/Masterdata/UserDetails/{Guid.Empty}");
         }
 
-        protected async Task ConfirmDeleteCompetitorCategories()
+        // Delete categories operations, with confirmation dialog.
+        protected async Task ConfirmDeleteLines()
         {
             bool confirmed = await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to delete the selected categories?");
-            if (confirmed)
-            {
-                await DeleteSelectedCompetitorCategories();
-            }
+            if (confirmed) await DeleteSelectedLines();
         }
 
-        protected async Task DeleteSelectedCompetitorCategories()
+        protected async Task DeleteSelectedLines()
         {
-            var selectedCompetitorCategory = _competitorCategoryListUI.Where(u => u.Selected).ToList();
-
-            var _competitorCategoryListUICopy = _competitorCategoryListUI.ToList();
-
-            foreach (var competitorCategory in selectedCompetitorCategory)
+            var listCopy = _competitorCategoryListUI.ToList();
+            var selectedLines = listCopy.Where(u => u.Selected).ToList();
+            foreach (var line in selectedLines)
             {
-                bool isDeleted = await CompetitorCategoryService.DeleteCompetitorCategoryAsync(competitorCategory.Id);
-                if (isDeleted)
-                {
-                    _competitorCategoryListUICopy.Remove(competitorCategory);
-                }
+                bool isDeleted = await CompetitorCategoryService.DeleteCompetitorCategoryAsync(line.Id);
+                if (isDeleted) listCopy.Remove(line);
             }
-
-            _competitorCategoryListUI = _competitorCategoryListUICopy;
-
+            _competitorCategoryListUI = listCopy;
             StateHasChanged();
         }
 
+        // Nested class to represent a category in the UI.
         protected class CompetitorCategoryListUI
         {
             public Guid Id { get; set; }
             public string IdString { get; set; }
             public string Name { get; set; }
+            public DateTime CreatedTimeStamp { get; set; }
             public bool Selected { get; set; }
         }
     }

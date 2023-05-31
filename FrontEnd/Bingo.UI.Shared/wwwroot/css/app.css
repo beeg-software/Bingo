@@ -100,3 +100,15 @@ a, .btn-link {
     .loading-progress-text:after {
         content: var(--blazor-load-percentage-text, "Loading");
     }
+
+.checkbox-column {
+    width: 35px;
+}
+
+.prog-column {
+    width: 90px;
+}
+
+.large-checkbox {
+    transform: scale(1.4);
+}

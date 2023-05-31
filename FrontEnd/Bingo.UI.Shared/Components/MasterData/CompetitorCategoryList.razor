@@ -1,5 +1,6 @@
 ﻿@if (_isLoading)
 {
+    <!-- Loader Display -->
     <div class="d-flex justify-content-center">
         <div class="spinner-border" role="status">
             <span class="visually-hidden">Loading...</span>
@@ -8,41 +9,45 @@
 }
 else
 {
+    <!-- Table Display -->
     <form>
+
+        <!-- CompetitorCategory Table -->
         <table class="table">
             <thead>
                 <tr>
-                    <th>
-                        <input type="checkbox" @bind="_selectAll" @onclick="ToggleSelectAll" />
-                    </th>
-                    <th>Prog.</th>
-                    <th>Nome</th>
+                    <!-- Checkbox to toggle selection of all competitor categories with larger size -->
+                    <th class="checkbox-column"><input type="checkbox" class="large-checkbox" @bind="_selectAll" @onclick="ToggleSelectAll" /></th>
+                    <!-- Headers for line count and competitor category name -->
+                    <th class="prog-column"># Prog.</th>
+                    <th>Name</th>
                 </tr>
             </thead>
+
+            <!-- CompetitorCategory Entries -->
             <tbody>
                 @{
-                    _progCount = 1;
+                    _lineCount = 1; // Initialize program count
                 }
-                @foreach (var category in _competitorCategoryListUI.OrderBy(us => us.Id))
+                @foreach (var cat in _competitorCategoryListUI.OrderBy(us => us.CreatedTimeStamp)) // Sort and iterate over competitor categories
                 {
                     <tr>
-                        <td>
-                            <input type="checkbox" @bind="category.Selected" />
-                        </td>
-                        <td>
-                            @_progCount
-                        </td>
-                        <td>
-
-                            <a href="/Masterdata/CompetitorCategoryDetails/@category.IdString">@category.Name</a>
-                        </td>
+                        <!-- CompetitorCategory Selection with larger checkbox -->
+                        <td class="checkbox-column"><input type="checkbox" class="large-checkbox" @bind="cat.Selected" /></td>
+                        <!-- Line Count -->
+                        <td class="prog-column">@_lineCount</td>
+                        <!-- CompetitorCategory Details Link -->
+                        <td><a href="/Masterdata/CompetitorCategoryDetails/@cat.IdString">@cat.Name</a></td>
                     </tr>
-                    _progCount = _progCount + 1;
+                    _lineCount = _lineCount + 1; // Increment program count
                 }
             </tbody>
         </table>
-        <button type="button" class="btn btn-success" @onclick="() => NavigateToNewCompetitorCategory()">New Category</button>
-        <button type="button" class="btn btn-danger" @onclick="() => ConfirmDeleteCompetitorCategories()">Delete Categories</button>
-        <button type="button" class="btn btn-info" @onclick="() => ExportToCSV()">Export to CSV</button>
+
+        <!-- Button Controls -->
+        <button type="button" class="btn btn-success" @onclick="() => NavigateToNewEntity()">New Category</button> <!-- Navigate to New CompetitorCategory -->
+        <button type="button" class="btn btn-danger" @onclick="() => ConfirmDeleteLines()">Delete Selected CompetitorCategories</button> <!-- Delete Selected CompetitorCategories -->
+        <button type="button" class="btn btn-warning" @onclick="() => ExportToCSV()">Export to CSV</button> <!-- Export to CSV -->
+
     </form>
 }

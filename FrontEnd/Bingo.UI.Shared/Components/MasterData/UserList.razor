@@ -1,6 +1,6 @@
-﻿<!-- Display a loader while waiting for data -->
-@if (_isLoading)
+﻿@if (_isLoading)
 {
+    <!-- Loader Display -->
     <div class="d-flex justify-content-center">
         <div class="spinner-border" role="status">
             <span class="visually-hidden">Loading...</span>
@@ -9,54 +9,45 @@
 }
 else
 {
+    <!-- Table Display -->
     <form>
-        <!-- Create a table with a responsive design, using the "table" class -->
+
+        <!-- User Table -->
         <table class="table">
-            <!-- Define the table headers within the <thead> tag -->
             <thead>
                 <tr>
-                    <th>
-                        <!-- Create a "Select All" checkbox, bound to the _selectAll variable -->
-                        <!-- When clicked, it toggles the selection of all users using the ToggleSelectAll method -->
-                        <input type="checkbox" @bind="_selectAll" @onclick="ToggleSelectAll" />
-                    </th>
-                    <th>Prog.</th>
-                    <th>Nome</th>
+                    <!-- Checkbox to toggle selection of all users with larger size -->
+                    <th class="checkbox-column"><input type="checkbox" class="large-checkbox" @bind="_selectAll" @onclick="ToggleSelectAll" /></th>
+                    <!-- Headers for line count and user name -->
+                    <th class="prog-column"># Prog.</th>
+                    <th>Name</th>
                 </tr>
             </thead>
+
+            <!-- User Entries -->
             <tbody>
-                <!-- Initialize _progCount to 1, which will be used to display the program count for each user -->
                 @{
-                    _progCount = 1;
+                    _lineCount = 1; // Initialize program count
                 }
-                <!-- Iterate over the _userListUI list, sorting it by the Id property -->
-                @foreach (var user in _userListUI.OrderBy(us => us.CreatedTimeStamp))
+                @foreach (var user in _userListUI.OrderBy(us => us.CreatedTimeStamp)) // Sort and iterate over users
                 {
-                    <!-- Create a new table row for each user -->
                     <tr>
-                        <td>
-                            <!-- Bind a checkbox to the Selected property of the current user -->
-                            <input type="checkbox" @bind="user.Selected" />
-                        </td>
-                        <td>
-                            <!-- Display the _progCount variable, incrementing it for each iteration -->
-                    @_progCount
-                        </td>
-                        <td>
-                            <!-- Display the user's name as a link to their details page, using their IdString -->
-                            <a href="/Masterdata/UserDetails/@user.IdString">@user.Name</a>
-                        </td>
+                        <!-- User Selection with larger checkbox -->
+                        <td class="checkbox-column"><input type="checkbox" class="large-checkbox" @bind="user.Selected" /></td>
+                        <!-- Line Count -->
+                        <td class="prog-column">@_lineCount</td>
+                        <!-- User Details Link -->
+                        <td><a href="/Masterdata/UserDetails/@user.IdString">@user.Name</a></td>
                     </tr>
-                    <!-- Increment the _progCount variable -->
-                    _progCount = _progCount + 1;
+                    _lineCount = _lineCount + 1; // Increment program count
                 }
             </tbody>
         </table>
-        <!-- Create a "New user" button with an onclick event that calls the NavigateToNewUser() method -->
-        <button type="button" class="btn btn-success" @onclick="() => NavigateToNewUser()">New user</button>
-        <!-- Create a "Delete Selected Users" button with an onclick event that calls the ConfirmDeleteUsers() method -->
-        <button type="button" class="btn btn-danger" @onclick="() => ConfirmDeleteUsers()">Delete Selected Users</button>
-        <!-- Download the data as a CSV file -->
-        <button type="button" class="btn btn-info" @onclick="() => ExportToCSV()">Export to CSV</button>
+
+        <!-- Button Controls -->
+        <button type="button" class="btn btn-success" @onclick="() => NavigateToNewEntity()">New user</button> <!-- Navigate to New User -->
+        <button type="button" class="btn btn-danger" @onclick="() => ConfirmDeleteLines()">Delete Selected Users</button> <!-- Delete Selected Users -->
+        <button type="button" class="btn btn-warning" @onclick="() => ExportToCSV()">Export to CSV</button> <!-- Export to CSV -->
+
     </form>
 }

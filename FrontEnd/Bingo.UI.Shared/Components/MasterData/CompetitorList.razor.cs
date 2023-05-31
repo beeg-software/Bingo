@@ -12,49 +12,55 @@ namespace Bingo.UI.Shared.Components.MasterData
         [Inject] public NavigationManager NavigationManager { get; set; }
         [Inject] public IJSRuntime JSRuntime { get; set; }
 
-        protected List<Competitor> Competitor = new List<Competitor>();
+        // Properties for component's internal state.
+        protected List<Competitor> Competitors = new List<Competitor>();
         protected List<CompetitorListUI> _competitorListUI = new List<CompetitorListUI>();
-        protected int _progCount = 1;
+        protected int _lineCount = 1;
         protected bool _selectAll;
         protected bool _isLoading = true;
 
-
+        // Component initialization and competitor data fetch.
         protected override async Task OnInitializedAsync()
         {
             _isLoading = true;
-            Competitor = await CompetitorService.GetCompetitorsAsync();
-
-            foreach (var co in Competitor)
+            Competitors = await CompetitorService.GetCompetitorsAsync();
+            foreach (var co in Competitors)
             {
                 _competitorListUI.Add(new CompetitorListUI
                 {
                     Id = co.Id,
                     IdString = co.Id.ToString(),
-                    Name1 = co.Name1
+                    Number = co.Number,
+                    Name1 = co.Name1,
+                    Name2 = co.Name2,
+                    Name3 = co.Name3,
+                    Name4 = co.Name4,
+                    Nationality = co.Nationality,
+                    Team = co.Team,
+                    Boat = co.Boat,
+                    Engine = co.Engine,
+                    Status = co.Status,
+                    CreatedTimeStamp = co.CreationTimeStamp
                 });
             }
-
             _isLoading = false;
         }
 
+        // Export data to CSV file.
         protected async Task ExportToCSV()
         {
             var stringBuilder = new StringBuilder();
-
-            stringBuilder.AppendLine("\"Prog\",\"Nome1\"");
-
+            stringBuilder.AppendLine("\"Prog\",\"Number\",\"Nome1\",\"Nome2\",\"Nome3\",\"Nome4\",\"Nationality\",\"Team\",\"Boat\",\"Engine\",\"Status\"");
             int progCount = 1;
             foreach (var competitor in _competitorListUI.OrderBy(us => us.Id))
             {
-                stringBuilder.AppendLine($"\"{progCount}\",\"{competitor.Name1}\"");
+                stringBuilder.AppendLine($"\"{progCount}\",\"{competitor.Number}\",\"{competitor.Name1}\",\"{competitor.Name2}\",\"{competitor.Name3}\",\"{competitor.Name4}\",\"{competitor.Nationality}\",\"{competitor.Team}\",\"{competitor.Boat}\",\"{competitor.Engine}\",\"{competitor.Status}\"");
                 progCount++;
             }
-
-            var csvData = stringBuilder.ToString();
-
-            await JSRuntime.InvokeVoidAsync("downloadCSV", "CompetitorList.csv", csvData);
+            await JSRuntime.InvokeVoidAsync("downloadCSV", "CompetitorList.csv", stringBuilder.ToString());
         }
 
+        // Toggle all competitors' selection and navigation methods.
         protected void ToggleSelectAll()
         {
             _selectAll = !_selectAll;
@@ -64,45 +70,47 @@ namespace Bingo.UI.Shared.Components.MasterData
             }
         }
 
-        protected void NavigateToNewCompetitor()
+        protected void NavigateToNewEntity()
         {
             NavigationManager.NavigateTo($"/Masterdata/CompetitorDetails/{Guid.Empty}");
         }
 
-        protected async Task ConfirmDeleteCompetitors()
+        // Delete competitors operations, with confirmation dialog.
+        protected async Task ConfirmDeleteLines()
         {
             bool confirmed = await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to delete the selected competitors?");
-            if (confirmed)
-            {
-                await DeleteSelectedCompetitors();
-            }
+            if (confirmed) await DeleteSelectedLines();
         }
 
-        protected async Task DeleteSelectedCompetitors()
+        protected async Task DeleteSelectedLines()
         {
-            var selectedCompetitors = _competitorListUI.Where(u => u.Selected).ToList();
-
-            var _competitorListUICopy = _competitorListUI.ToList();
-
-            foreach (var competitor in selectedCompetitors)
+            var listCopy = _competitorListUI.ToList();
+            var selectedLines = listCopy.Where(u => u.Selected).ToList();
+            foreach (var line in selectedLines)
             {
-                bool isDeleted = await CompetitorService.DeleteCompetitorAsync(competitor.Id);
-                if (isDeleted)
-                {
-                    _competitorListUICopy.Remove(competitor);
-                }
+                bool isDeleted = await CompetitorService.DeleteCompetitorAsync(line.Id);
+                if (isDeleted) listCopy.Remove(line);
             }
-
-            _competitorListUI = _competitorListUICopy;
-
+            _competitorListUI = listCopy;
             StateHasChanged();
         }
 
+        // Nested class to represent a competitor in the UI.
         protected class CompetitorListUI
         {
             public Guid Id { get; set; }
             public string IdString { get; set; }
+            public string Number { get; set; }
             public string Name1 { get; set; }
+            public string Name2 { get; set; } = "";
+            public string Name3 { get; set; } = "";
+            public string Name4 { get; set; } = "";
+            public string Nationality { get; set; } = "";
+            public string Team { get; set; } = "";
+            public string Boat { get; set; } = "";
+            public string Engine { get; set; } = "";
+            public string Status { get; set; } = "";
+            public DateTime CreatedTimeStamp { get; set; }
             public bool Selected { get; set; }
         }
     }
