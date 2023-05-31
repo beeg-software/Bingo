@@ -7,21 +7,22 @@ namespace Bingo.Common.DomainModel.MasterData
         [Required]
         public Guid Id { get; set; }
 
-        public Guid CompetitorId { get; set; }
+        public Guid? CompetitorId { get; set; }
 
-        [Required]
-        public Guid SectorId { get; set; }
+        public Guid? SectorId { get; set; }
 
-        public DateTime TimeStamp { get; set; }
+        public DateTime EntryTime { get; set; } = DateTime.MinValue;
 
-        public DateTime EntryTime { get; set; }
+        public DateTime ExitTime { get; set; } = DateTime.MinValue;
 
-        public DateTime ExitTime { get; set; }
+        public long? PenaltyTimeTicks { get; set; }
 
-        public long PenaltyTimeTicks { get; set; }
+        public Int32? PenaltyPositions { get; set; }
 
-        public Int32 PenaltyPositions { get; set; }
+        public string? PenaltyNote { get; set; }
 
-        public string PenaltyNote { get; set; }
+        public DateTime CreationTimeStamp { get; set; }
+
+        public DateTime LastUpdateTimeStamp { get; set; }
     }
 }

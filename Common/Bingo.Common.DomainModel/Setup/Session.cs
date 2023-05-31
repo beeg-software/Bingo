@@ -7,6 +7,11 @@ namespace Bingo.Common.DomainModel.MasterData
         [Required]
         public Guid Id { get; set; }
 
+        [Required]
         public string Name { get; set; }
+
+        public DateTime CreationTimeStamp { get; set; }
+
+        public DateTime LastUpdateTimeStamp { get; set; }
     }
 }

@@ -3,7 +3,7 @@ using Bingo.Common.DomainModel.MasterData;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Bingo.BackEnd.Server.Controllers
+namespace Bingo.BackEnd.Server.Controllers.MasterData
 {
     [ApiController]
     [Route("api/[controller]")]

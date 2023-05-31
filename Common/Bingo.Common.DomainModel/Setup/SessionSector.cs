@@ -7,10 +7,15 @@ namespace Bingo.Common.DomainModel.MasterData
         [Required]
         public Guid Id { get; set; }
 
-        public Guid SessionId { get; set; }
+        public Guid? SessionId { get; set; }
 
-        public Guid SectorId { get; set; }
+        public Guid? SectorId { get; set; }
 
-        public bool RaceEnabled { get; set; }
+        [Required]
+        public bool RaceEnabled { get; set; } = false;
+
+        public DateTime CreationTimeStamp { get; set; }
+
+        public DateTime LastUpdateTimeStamp { get; set; }
     }
 }

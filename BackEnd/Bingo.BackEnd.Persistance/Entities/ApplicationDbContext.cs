@@ -14,7 +14,7 @@ namespace Bingo.BackEnd.Persistance.Entities
         }
 
         public DbSet<User> Users { get; set; }
-        //public DbSet<Competitor> Competitors { get; set; }
+        public DbSet<Competitor> Competitors { get; set; }
         public DbSet<CompetitorCategory> CompetitorCategories { get; set; }
         public DbSet<Sector> Sectors { get; set; }
         public DbSet<SectorTime> SectorTimes { get; set; }
