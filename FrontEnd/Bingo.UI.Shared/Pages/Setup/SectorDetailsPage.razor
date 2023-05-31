@@ -1,0 +1,13 @@
+﻿@page "/Setup/SectorDetails/{Id:guid}"
+@*@using Bingo.UI.Shared.Components.Setup*@
+
+<PageTitle>SectorDetails</PageTitle>
+
+<h3>Sector Details</h3>
+
+@*<SectorDetails Id="@Id" />*@
+
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
+}

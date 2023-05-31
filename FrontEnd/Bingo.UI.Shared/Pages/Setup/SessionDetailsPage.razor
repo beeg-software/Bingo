@@ -1,0 +1,13 @@
+﻿@page "/Setup/SessionDetails/{Id:guid}"
+@*@using Bingo.UI.Shared.Components.Setup*@
+
+<PageTitle>SessionDetails</PageTitle>
+
+<h3>Session Details</h3>
+
+@*<SessionDetails Id="@Id" />*@
+
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
+}

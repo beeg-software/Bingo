@@ -32,8 +32,6 @@
   <ItemGroup>
     <Folder Include="Components\Timing\" />
     <Folder Include="Components\Setup\" />
-    <Folder Include="Pages\Timing\" />
-    <Folder Include="Pages\Setup\" />
   </ItemGroup>
 
 </Project>

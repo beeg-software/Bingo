@@ -1,0 +1,13 @@
+﻿@page "/MasterData/CompetitorDetails/{Id:guid}"
+@using Bingo.UI.Shared.Components.MasterData
+
+<PageTitle>CompetitorDetails</PageTitle>
+
+<h3>Competitor Details</h3>
+
+@*<CompetitorDetails Id="@Id" />*@
+
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
+}
