@@ -1,0 +1,41 @@
+﻿@using Bingo.UI.Shared.UIElements.Input
+
+<!-- Check if the SessionSector object is null, display a loading message if true -->
+@if (sese == null)
+{
+    <span>Getting data...</span>
+}
+else
+{
+    <!-- Create an EditForm with the SessionSector object as the model and handle submission with the HandleValidSubmit method -->
+    <EditForm Model="@sese" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator />
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <CustomInputGuid @bind-Value="sese.Id" ValidationFor="@(() => sese.Id)" Label="Id" Id="sese_id" ReadOnly=true />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <CustomInputNullableGuid @bind-Value="sese.SessionId" ValidationFor="@(() => sese.SessionId)" Label="SessionId" Id="sese_sessionid" />
+                </div>
+                <div class="col-md-6">
+                    <CustomInputNullableGuid @bind-Value="sese.SectorId" ValidationFor="@(() => sese.SectorId)" Label="SectorId" Id="sese_sectorid" />
+                </div>
+            </div>
+@*            <div class="row">
+                <div class="col-md-6">
+                    <CustomInputText @bind-Value="sese.RaceEnabled" ValidationFor="@(() => sese.RaceEnabled)" Label="RaceEnabled" Id="sese_raceenabled" ReadOnly=true />
+                </div>
+            </div>*@
+            <!-- Save button -->
+            <div class="row">
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-primary mt-3">Save</button>
+                </div>
+            </div>
+        </div>
+    </EditForm>
+}

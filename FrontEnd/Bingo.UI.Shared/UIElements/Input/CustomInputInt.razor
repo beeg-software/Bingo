@@ -1,0 +1,52 @@
+﻿@using System.Linq.Expressions
+@using System.Globalization
+@inherits InputBase<Int32>
+
+<div class="form-group">
+    @if (!string.IsNullOrWhiteSpace(Label))
+    {
+        <label for="@Id">@Label</label>
+    }
+    <div class="input-group">
+        @if(UnitPrepend != "")
+        {
+            <div class="input-group-prepend">
+                <span class="input-group-text">@UnitPrepend</span>
+            </div>
+        }
+        @if(!ReadOnly)
+        {
+            <input type="number" class="form-control @CssClass" id="@Id" @bind="@CurrentValueAsString" />
+        }
+        else
+        {
+            <input type="number" class="form-control @CssClass" id="@Id" @bind="@CurrentValueAsString" disabled />
+        }
+        @if(UnitAppend != "")
+        {
+            <div class="input-group-append">
+                <span class="input-group-text">@UnitAppend</span>
+            </div>
+        }
+    </div>
+    
+    <div class="form-control-validation">
+        <ValidationMessage For="@ValidationFor" />
+    </div>
+</div>
+
+@code {
+    [Parameter] public string Id { get; set; }
+    [Parameter] public string Label { get; set; }
+    [Parameter] public string UnitPrepend { get; set; } = "";
+    [Parameter] public string UnitAppend { get; set; } = "";
+    [Parameter] public bool ReadOnly { get; set; } = false;
+    [Parameter] public Expression<Func<Int32>> ValidationFor { get; set; }
+
+    protected override bool TryParseValueFromString(string value, out Int32 result, out string validationErrorMessage)
+    {
+        result = Int32.Parse(value, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
+        validationErrorMessage = null;
+        return true;
+    }
+}

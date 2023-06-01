@@ -77,7 +77,7 @@ namespace Bingo.UI.Shared.Components.Setup
 
         protected void NavigateToNewEntity()
         {
-            NavigationManager.NavigateTo($"/Masterdata/SectorDetails/{Guid.Empty}");
+            NavigationManager.NavigateTo($"/Setup/SectorDetails/{Guid.Empty}");
         }
 
         // Delete sectors operations, with confirmation dialog.

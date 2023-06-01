@@ -1,0 +1,151 @@
+﻿@inherits InputBase<DateTime>
+
+@if (!string.IsNullOrWhiteSpace(Label))
+{
+    <label for="@Id">@Label</label>
+}
+<div class="form-row">
+    <div class="col">
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Anno</span>
+                </div>
+                @{
+                    _tempId = Id + "-year";
+                }
+                @if(!ReadOnly)
+                {
+                    <input type="number" min="1" max="9999" minlength="4" maxlength="4" placeholder="AAAA" class="form-control @CssClass" id="@_tempId" @bind-value="@year" @bind-value:event="oninput" />
+                }
+                else
+                {
+                    <input type="number" class="form-control @CssClass" id="@_tempId" value="@year" disabled />
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Mese</span>
+                </div>
+                @{
+                    _tempId = Id + "-month";
+                }
+                @if(!ReadOnly)
+                {
+                    <input type="number" min="1" max="12" minlength="2" maxlength="2" placeholder="MM" class="form-control @CssClass" id="@_tempId" @bind-value="@month" @bind-value:event="oninput"/>
+                }
+                else
+                {
+                    <input type="number" class="form-control @CssClass" id="@_tempId" value="@month" disabled />
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Giorno</span>
+                </div>
+                @{
+                    _tempId = Id + "-day";
+                }
+                @if(!ReadOnly)
+                {
+                    <input type="number" min="1" max="@maxDayOfMonth" minlength="2" maxlength="2" placeholder="DD" class="form-control @CssClass" id="@_tempId" @bind-value="@day" @bind-value:event="oninput"/>
+                }
+                else
+                {
+                    <input type="number" class="form-control @CssClass" id="@_tempId" value="@day" disabled />
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Ore</span>
+                </div>
+                @{
+                    _tempId = Id + "-hour";
+                }
+                @if(!ReadOnly)
+                {
+                    <input type="number" min="0" max="23" minlength="2" maxlength="2" placeholder="hh" class="form-control @CssClass" id="@_tempId" @bind-value="@hour" @bind-value:event="oninput"/>
+                }
+                else
+                {
+                    <input type="number" class="form-control @CssClass" id="@_tempId" value="@hour" disabled />
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Minuti</span>
+                </div>
+                @{
+                    _tempId = Id + "-minute";
+                }
+                @if(!ReadOnly)
+                {
+                    <input type="number" min="0" max="59" minlength="2" maxlength="2" placeholder="mm" class="form-control @CssClass" id="@_tempId" @bind-value="@minute" @bind-value:event="oninput"/>
+                }
+                else
+                {
+                    <input type="number" class="form-control @CssClass" id="@_tempId" value="@minute" disabled />
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Secondi</span>
+                </div>
+                @{
+                    _tempId = Id + "-second";
+                }
+                @if(!ReadOnly)
+                {
+                    <input type="number" min="0" max="59" minlength="2" maxlength="2" placeholder="ss" class="form-control @CssClass" id="@_tempId" @bind-value="@second" @bind-value:event="oninput"/>
+                }
+                else
+                {
+                    <input type="number" class="form-control @CssClass" id="@_tempId" value="@second" disabled />
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Millesimi</span>
+                </div>
+                @{
+                    _tempId = Id + "-millisecond";
+                }
+                @if(!ReadOnly)
+                {
+                    <input type="number" min="0" max="999" minlength="3" maxlength="4" placeholder="fff" class="form-control @CssClass" id="@_tempId" @bind-value="@millisecond" @bind-value:event="oninput"/>
+                }
+                else
+                {
+                    <input type="number" class="form-control @CssClass" id="@_tempId" value="@millisecond" disabled />
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<div class="form-control-validation">
+    <ValidationMessage For="@ValidationFor" />
+</div>

@@ -1,0 +1,52 @@
+﻿@using Bingo.UI.Shared.UIElements.Input
+
+<!-- Check if the Sector object is null, display a loading message if true -->
+@if (sc == null)
+{
+    <span>Getting data...</span>
+}
+else
+{
+    <!-- Create an EditForm with the Sector object as the model and handle submission with the HandleValidSubmit method -->
+    <EditForm Model="@sc" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator />
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <CustomInputGuid @bind-Value="sc.Id" ValidationFor="@(() => sc.Id)" Label="Id" Id="sc_id" ReadOnly=true />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <CustomInputText @bind-Value="sc.Name" ValidationFor="@(() => sc.Name)" Label="Name" Id="sc_name" />
+                </div>
+                <div class="col-md-6">
+                    <CustomInputText @bind-Value="sc.ImportName" ValidationFor="@(() => sc.ImportName)" Label="ImportName" Id="sc_importname" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <CustomInputNullableNumber @bind-Value="sc.Length" ValidationFor="@(() => sc.Length)" Label="Length" Id="sc_length" />
+                </div>
+                <div class="col-md-6">
+                    <CustomInputNullableNumber @bind-Value="sc.TargetAverageSpeed" ValidationFor="@(() => sc.TargetAverageSpeed)" Label="TargetAverageSpeed" Id="sc_targetaveragespeed" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <CustomInputNullableTimeSpan @bind-Value="sc.MinTimeTicks" ValidationFor="@(() => sc.MinTimeTicks)" Label="MinTime" Id="sc_mintimeticks" />
+                </div>
+                <div class="col-md-6">
+                    <CustomInputNullableTimeSpan @bind-Value="sc.MaxTimeTicks" ValidationFor="@(() => sc.MaxTimeTicks)" Label="MaxTime" Id="sc_maxtimeticks" />
+                </div>
+            </div>
+            <!-- Save button -->
+            <div class="row">
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-primary mt-3">Save</button>
+                </div>
+            </div>
+        </div>
+    </EditForm>
+}

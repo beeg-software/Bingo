@@ -1,0 +1,74 @@
+﻿@using Bingo.UI.Shared.UIElements.Input
+
+<!-- Check if the SectorTime object is null, display a loading message if true -->
+@if (sectim == null)
+{
+    <span>Getting data...</span>
+}
+else
+{
+    <!-- Create an EditForm with the SectorTime object as the model and handle submission with the HandleValidSubmit method -->
+    <EditForm Model="@sectim" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator />
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <CustomInputGuid @bind-Value="sectim.Id" ValidationFor="@(() => sectim.Id)" Label="Id" Id="sectim_id" ReadOnly=true />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-9">
+                    <CustomInputNullableGuid @bind-Value="sectim.CompetitorId" ValidationFor="@(() => sectim.CompetitorId)" OnChange="RefreshTimes" Label="CompetitorId" Id="sectim_competitorid" />
+                </div>
+                <div class="col-md-3">
+                    <CustomInputText @bind-Value="_localCompetitor.Number" ValidationFor="@(() => _localCompetitor.Number)" Label="CompetitorNumber" Id="sectim_competitornumber" ReadOnly=true />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-9">
+                    <CustomInputNullableGuid @bind-Value="sectim.SectorId" ValidationFor="@(() => sectim.SectorId)" OnChange="RefreshTimes" Label="SectorId" Id="sectim_sectimorid" />
+                </div>
+                <div class="col-md-3">
+                    <CustomInputText @bind-Value="_localSector.Name" ValidationFor="@(() => _localSector.Name)" Label="SectorName" Id="sectim_sectorname" ReadOnly=true />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <CustomInputDateTime @bind-Value="sectim.EntryTime" ValidationFor="@(() => sectim.EntryTime)" OnChange="RefreshTimes" Label="EntryTime" Id="sectim_entrytime" />
+                </div>
+                <div class="col-md-6">
+                    <CustomInputDateTime @bind-Value="sectim.ExitTime" ValidationFor="@(() => sectim.ExitTime)" OnChange="RefreshTimes" Label="ExitTime" Id="sectim_exittime" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <CustomInputTimeSpan @bind-Value="_netTimeTicks" ValidationFor="@(() => _netTimeTicks)" Label="NetTime" Id="sectim_nettime" ReadOnly=true />
+                </div>
+                <div class="col-md-4">
+                    <CustomInputNullableTimeSpan @bind-Value="sectim.PenaltyTimeTicks" ValidationFor="@(() => sectim.PenaltyTimeTicks)" OnChange="RefreshTimes" Label="Tempo penalità" Id="sectim_penaltytimeticks" />
+                </div>
+                <div class="col-md-4">
+                    <CustomInputTimeSpan @bind-Value="_totalTimeTicks" ValidationFor="@(() => _totalTimeTicks)" Label="TotalTime" Id="sectim_totaltime" ReadOnly=true />
+                </div>
+            </div>
+            <div class="row">
+            <div class="col-md-4">
+                <CustomInputNumber @bind-Value="_avgSpeed" ValidationFor="@(() => _avgSpeed)" Label="AvgSpeed" Id="sectim_achievedaveragespeed" UnitAppend="km/h" ReadOnly=true />
+            </div>
+            <div class="col-md-4">
+                <CustomInputNullableInt @bind-Value="sectim.PenaltyPositions" ValidationFor="@(() => sectim.PenaltyPositions)" Label="PenaltyPositions" Id="sectim_penaltypositions" UnitPrepend="Penalty Positions" />
+            </div>
+            <div class="col-md-4">
+                <CustomInputText @bind-Value="sectim.PenaltyNote" ValidationFor="@(() => sectim.PenaltyNote)" Label="PenaltyNote" Id="sectim_penaltynote" />
+            </div>
+            </div>
+            <!-- Save button -->
+            <div class="row">
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-primary mt-3">Save</button>
+                </div>
+            </div>
+        </div>
+    </EditForm>
+}

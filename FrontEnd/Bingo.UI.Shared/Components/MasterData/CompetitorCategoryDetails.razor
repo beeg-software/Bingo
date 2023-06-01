@@ -1,14 +1,15 @@
 ﻿@using Bingo.UI.Shared.UIElements.Input
 
-@if(cat == null)
+<!-- Check if the CompetitorCategory object is null, display a loading message if true -->
+@if (cat == null)
 {
     <span>Getting data...</span>
 }
 else
 {
-
+    <!-- Create an EditForm with the CompetitorCategory object as the model and handle submission with the HandleValidSubmit method -->
     <EditForm Model="@cat" OnValidSubmit="@HandleValidSubmit">
-        <DataAnnotationsValidator/>
+        <DataAnnotationsValidator />
 
         <div class="container">
             <div class="row">
@@ -18,9 +19,10 @@ else
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    <CustomInputText @bind-Value="cat.Name" ValidationFor="@(() => cat.Name)" Label="Category Name" Id="cat_name" />
+                    <CustomInputText @bind-Value="cat.Name" ValidationFor="@(() => cat.Name)" Label="Name" Id="cat_name" />
                 </div>
             </div>
+            <!-- Save button -->
             <div class="row">
                 <div class="col-md-6">
                     <button type="submit" class="btn btn-primary mt-3">Save</button>

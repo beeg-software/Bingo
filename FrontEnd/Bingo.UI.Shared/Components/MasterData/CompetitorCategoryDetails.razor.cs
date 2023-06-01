@@ -8,11 +8,12 @@ namespace Bingo.UI.Shared.Components.MasterData
     {
         [Inject] public ICompetitorCategoryService CompetitorCategoryService { get; set; }
         [Inject] public NavigationManager NavigationManager { get; set; }
-
-
         [Parameter] public Guid Id { get; set; }
+
+        // Properties for component's internal state.
         private CompetitorCategory cat { get; set; }
 
+        // Component initialization and category data fetch.
         protected override async Task OnInitializedAsync()
         {
             if (Id == Guid.Empty)
@@ -31,10 +32,12 @@ namespace Bingo.UI.Shared.Components.MasterData
             base.OnInitialized();
         }
 
+        // Handle form submissions
         private async Task HandleValidSubmit()
         {
             var result = new CompetitorCategory();
 
+            // Check if the Id is empty, then create a new category, otherwise edit the existing category
             if (Id == Guid.Empty)
             {
                 result = await CompetitorCategoryService.NewCompetitorCategoryAsync(cat);
@@ -44,9 +47,11 @@ namespace Bingo.UI.Shared.Components.MasterData
                 result = await CompetitorCategoryService.EditCompetitorCategoryAsync(cat);
             }
 
+            // Update the CompetitorCategory object and Id with the result
             cat = result;
             Id = result.Id;
 
+            // Update the URL with the new category ID to reflect the changes
             NavigationManager.NavigateTo($"/Masterdata/CompetitorCategoryDetails/{Id}");
         }
     }

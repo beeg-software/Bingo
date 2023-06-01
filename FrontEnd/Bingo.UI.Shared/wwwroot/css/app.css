@@ -112,3 +112,14 @@ a, .btn-link {
 .large-checkbox {
     transform: scale(1.4);
 }
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+.form-group > label {
+    font-size: 12px;
+    position: relative;
+    bottom: -2px;
+    color: rgb(85 85 85);
+}

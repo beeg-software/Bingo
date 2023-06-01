@@ -1,25 +1,25 @@
 ﻿@using Bingo.UI.Shared.UIElements.Input
 
-<!-- Check if the User object is null, display a loading message if true -->
-@if (us == null)
+<!-- Check if the Session object is null, display a loading message if true -->
+@if (ses == null)
 {
     <span>Getting data...</span>
 }
 else
 {
-    <!-- Create an EditForm with the User object as the model and handle submission with the HandleValidSubmit method -->
-    <EditForm Model="@us" OnValidSubmit="@HandleValidSubmit">
+    <!-- Create an EditForm with the Session object as the model and handle submission with the HandleValidSubmit method -->
+    <EditForm Model="@ses" OnValidSubmit="@HandleValidSubmit">
         <DataAnnotationsValidator />
 
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <CustomInputGuid @bind-Value="us.Id" ValidationFor="@(() => us.Id)" Label="Id" Id="us_id" ReadOnly=true />
+                    <CustomInputGuid @bind-Value="ses.Id" ValidationFor="@(() => ses.Id)" Label="Id" Id="ses_id" ReadOnly=true />
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    <CustomInputText @bind-Value="us.Name" ValidationFor="@(() => us.Name)" Label="Name" Id="us_name" />
+                    <CustomInputText @bind-Value="ses.Name" ValidationFor="@(() => ses.Name)" Label="Name" Id="ses_name" />
                 </div>
             </div>
             <!-- Save button -->

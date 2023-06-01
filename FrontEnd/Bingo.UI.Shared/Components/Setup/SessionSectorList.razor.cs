@@ -97,7 +97,7 @@ namespace Bingo.UI.Shared.Components.Setup
 
         protected void NavigateToNewEntity()
         {
-            NavigationManager.NavigateTo($"/Masterdata/SessionSectorDetails/{Guid.Empty}");
+            NavigationManager.NavigateTo($"/Setup/SessionSectorDetails/{Guid.Empty}");
         }
 
         // Delete sessionSectors operations, with confirmation dialog.

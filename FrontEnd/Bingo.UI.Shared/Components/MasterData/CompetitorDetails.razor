@@ -1,0 +1,71 @@
+﻿@using Bingo.UI.Shared.UIElements.Input
+
+<!-- Check if the Competitor object is null, display a loading message if true -->
+@if (comp == null)
+{
+    <span>Getting data...</span>
+}
+else
+{
+    <!-- Create an EditForm with the Competitor object as the model and handle submission with the HandleValidSubmit method -->
+    <EditForm Model="@comp" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator />
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <CustomInputGuid @bind-Value="comp.Id" ValidationFor="@(() => comp.Id)" Label="Id" Id="comp_id" ReadOnly=true />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <CustomInputNullableGuid @bind-Value="comp.CompetitorCategoryId" ValidationFor="@(() => comp.CompetitorCategoryId)" Label="CompetitorCategoryId" Id="comp_competitorcategoryid" />
+                </div>
+                <div class="col-md-3">
+                    <CustomInputText @bind-Value="comp.Number" ValidationFor="@(() => comp.Number)" Label="Number" Id="comp_number" />
+                </div>
+                <div class="col-md-3">
+                    <CustomInputText @bind-Value="comp.ImportNumber" ValidationFor="@(() => comp.ImportNumber)" Label="ImportNumber" Id="comp_importnumber" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <CustomInputText @bind-Value="comp.Name1" ValidationFor="@(() => comp.Name1)" Label="Name1" Id="comp_name1" />
+                </div>
+                <div class="col-md-6">
+                    <CustomInputText @bind-Value="comp.Name2" ValidationFor="@(() => comp.Name2)" Label="Name2" Id="comp_name2" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <CustomInputText @bind-Value="comp.Name3" ValidationFor="@(() => comp.Name3)" Label="Name3" Id="comp_name3" />
+                </div>
+                <div class="col-md-6">
+                    <CustomInputText @bind-Value="comp.Name4" ValidationFor="@(() => comp.Name4)" Label="Name4" Id="comp_name4" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <CustomInputText @bind-Value="comp.Team" ValidationFor="@(() => comp.Team)" Label="Team" Id="comp_team" />
+                </div>
+                <div class="col-md-6">
+                    <CustomInputText @bind-Value="comp.Boat" ValidationFor="@(() => comp.Boat)" Label="Boat" Id="comp_boat" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <CustomInputText @bind-Value="comp.Engine" ValidationFor="@(() => comp.Engine)" Label="Engine" Id="comp_engine" />
+                </div>
+                <div class="col-md-6">
+                    <CustomInputText @bind-Value="comp.Status" ValidationFor="@(() => comp.Status)" Label="Status" Id="comp_status" />
+                </div>
+            </div>
+            <!-- Save button -->
+            <div class="row">
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-primary mt-3">Save</button>
+                </div>
+            </div>
+        </div>
+    </EditForm>
+}

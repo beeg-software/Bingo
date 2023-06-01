@@ -21,6 +21,7 @@ else
                     <!-- Headers for line count and sector name -->
                     <th class="prog-column"># Prog.</th>
                     <th>Name</th>
+                    <th>ImportName</th>
                     <th>Length</th>
                     <th>AverageSpeed</th>
                     <th>MinTime</th>
@@ -41,7 +42,7 @@ else
                         <!-- Line Count -->
                         <td class="prog-column">@_lineCount</td>
                         <!-- Sector Details Link -->
-                        <td><a href="/Masterdata/UserDetails/@sc.IdString">@sc.Name</a></td>
+                        <td><a href="/Setup/SectorDetails/@sc.IdString">@sc.Name</a></td>
                         <td>@sc.ImportName</td>
                         <td>@sc.Length.ToString("F2") km</td>
                         <td>@sc.TargetAverageSpeed.ToString("F2") km/h</td>

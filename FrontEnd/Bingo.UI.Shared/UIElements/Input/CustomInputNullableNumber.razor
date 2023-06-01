@@ -1,0 +1,68 @@
+﻿@using System.Linq.Expressions
+@using System.Globalization
+@inherits InputBase<Decimal?>
+
+<div class="form-group">
+    @if (!string.IsNullOrWhiteSpace(Label))
+    {
+        <label for="@Id">@Label</label>
+    }
+    <div class="input-group">
+        @if (UnitPrepend != "")
+        {
+            <div class="input-group-prepend">
+                <span class="input-group-text">@UnitPrepend</span>
+            </div>
+        }
+        @if (!ReadOnly)
+        {
+            <input type="number" class="form-control @CssClass" id="@Id" @bind="@CurrentValueAsString" />
+        }
+        else
+        {
+            <input type="number" class="form-control @CssClass" id="@Id" @bind="@CurrentValueAsString" disabled />
+        }
+        @if (UnitAppend != "")
+        {
+            <div class="input-group-append">
+                <span class="input-group-text">@UnitAppend</span>
+            </div>
+        }
+    </div>
+
+    <div class="form-control-validation">
+        <ValidationMessage For="@ValidationFor" />
+    </div>
+</div>
+
+@code {
+    [Parameter] public string Id { get; set; }
+    [Parameter] public string Label { get; set; }
+    [Parameter] public string UnitPrepend { get; set; } = "";
+    [Parameter] public string UnitAppend { get; set; } = "";
+    [Parameter] public bool ReadOnly { get; set; } = false;
+    [Parameter] public Expression<Func<Decimal?>> ValidationFor { get; set; }
+
+    protected override bool TryParseValueFromString(string value, out Decimal? result, out string validationErrorMessage)
+    {
+        if (decimal.TryParse(value, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out var tempResult))
+        {
+            result = tempResult;
+            validationErrorMessage = null;
+            return true;
+        }
+        else
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                result = null;
+                validationErrorMessage = null;
+                return true;
+            }
+
+            result = null;
+            validationErrorMessage = "The input value is not in the correct format.";
+            return false;
+        }
+    }
+}

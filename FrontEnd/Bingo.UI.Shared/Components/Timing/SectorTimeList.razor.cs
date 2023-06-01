@@ -130,7 +130,7 @@ namespace Bingo.UI.Shared.Components.Timing
 
         protected void NavigateToNewEntity()
         {
-            NavigationManager.NavigateTo($"/Masterdata/SectorTimeDetails/{Guid.Empty}");
+            NavigationManager.NavigateTo($"/Timing/SectorTimeDetails/{Guid.Empty}");
         }
 
         // Delete sector times operations, with confirmation dialog.

@@ -1,0 +1,54 @@
+﻿@using System.Linq.Expressions
+@inherits InputBase<Guid?>
+
+<div class="form-group">
+    @if (!string.IsNullOrWhiteSpace(Label))
+    {
+        <label for="@Id">@Label</label>
+    }
+    @if (!ReadOnly)
+    {
+        <input class="form-control @CssClass" id="@Id" @bind="@CurrentValue" />
+    }
+    else
+    {
+        <input class="form-control @CssClass" id="@Id" @bind="@CurrentValue" disabled />
+    }
+
+    <div class="form-control-validation">
+        <ValidationMessage For="@ValidationFor" />
+    </div>
+</div>
+
+@code {
+    [Parameter] public string Id { get; set; }
+    [Parameter] public string Label { get; set; }
+    [Parameter] public bool ReadOnly { get; set; } = false;
+    [Parameter] public Expression<Func<Guid?>> ValidationFor { get; set; }
+    [Parameter] public EventCallback<string> OnChange { get; set; }
+
+    protected override bool TryParseValueFromString(string value, out Guid? result, out string validationErrorMessage)
+    {
+        if (string.IsNullOrEmpty(value))
+        {
+            result = null;
+            validationErrorMessage = null;
+            return true;
+        }
+
+        try
+        {
+            Guid newGuid = Guid.Parse(value);
+            result = newGuid;
+            validationErrorMessage = null;
+            return true;
+        }
+        catch (FormatException)
+        {
+            result = Guid.Empty;
+            validationErrorMessage = $"Bad format: {value}";
+            return false;
+        }
+
+    }
+}
