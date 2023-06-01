@@ -12,32 +12,34 @@ else
     <!-- Table Display -->
     <form>
 
-        <!-- User Table -->
+        <!-- Session Table -->
         <table class="table">
             <thead>
                 <tr>
-                    <!-- Checkbox to toggle selection of all users with larger size -->
+                    <!-- Checkbox to toggle selection of all sessions with larger size -->
                     <th class="checkbox-column"><input type="checkbox" class="large-checkbox" @bind="_selectAll" @onclick="ToggleSelectAll" /></th>
-                    <!-- Headers for line count and user name -->
+                    <!-- Headers for line count and session name -->
                     <th class="prog-column"># Prog.</th>
                     <th>Name</th>
+                    <th>Standings</th>
                 </tr>
             </thead>
 
-            <!-- User Entries -->
+            <!-- Session Entries -->
             <tbody>
                 @{
                     _lineCount = 1; // Initialize count
                 }
-                @foreach (var user in _userListUI.OrderBy(us => us.CreationTimeStamp)) // Sort and iterate over users
+                @foreach (var ss in _sessionListUI.OrderBy(us => us.CreationTimeStamp)) // Sort and iterate over sessions
                 {
                     <tr>
-                        <!-- User Selection with larger checkbox -->
-                        <td class="checkbox-column"><input type="checkbox" class="large-checkbox" @bind="user.Selected" /></td>
+                        <!-- Session Selection with larger checkbox -->
+                        <td class="checkbox-column"><input type="checkbox" class="large-checkbox" @bind="ss.Selected" /></td>
                         <!-- Line Count -->
                         <td class="prog-column">@_lineCount</td>
-                        <!-- User Details Link -->
-                        <td><a href="/Masterdata/UserDetails/@user.IdString">@user.Name</a></td>
+                        <!-- Session Details Link -->
+                        <td><a href="/Masterdata/UserDetails/@ss.IdString">@ss.Name</a></td>
+                        <td><a href="/Timing/Classification/@ss.Id.ToString()"><span class="oi oi-list" aria-hidden="true"></span></a></td>
                     </tr>
                     _lineCount = _lineCount + 1; // Increment count
                 }
@@ -45,8 +47,8 @@ else
         </table>
 
         <!-- Button Controls -->
-        <button type="button" class="btn btn-success" @onclick="() => NavigateToNewEntity()">New user</button> <!-- Navigate to New User -->
-        <button type="button" class="btn btn-danger" @onclick="() => ConfirmDeleteLines()">Delete Selected Users</button> <!-- Delete Selected Users -->
+        <button type="button" class="btn btn-success" @onclick="() => NavigateToNewEntity()">New session</button> <!-- Navigate to New Session -->
+        <button type="button" class="btn btn-danger" @onclick="() => ConfirmDeleteLines()">Delete Selected Sessions</button> <!-- Delete Selected Sessions -->
         <button type="button" class="btn btn-warning" @onclick="() => ExportToCSV()">Export to CSV</button> <!-- Export to CSV -->
 
     </form>

@@ -1,0 +1,72 @@
+﻿@if (_isLoading)
+{
+    <!-- Loader Display -->
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+}
+else
+{
+    <!-- Table Display -->
+    <form>
+
+        <!-- SectorTime Table -->
+        <table class="table">
+            <thead>
+                <tr>
+                    <!-- Checkbox to toggle selection of all sector times with larger size -->
+                    <th class="checkbox-column"><input type="checkbox" class="large-checkbox" @bind="_selectAll" @onclick="ToggleSelectAll" /></th>
+                    <!-- Headers for line count and sector time name -->
+                    <th class="prog-column"># Prog.</th>
+                    <th>Competitor</th>
+                    <th>Sector</th>
+                    <th>EntryTime</th>
+                    <th>ExitTime</th>
+                    <th>NetTime</th>
+                    <th>PenaltyTime</th>
+                    <th>TotalTime</th>
+                    <th>AverageSpeed</th>
+                    <th>NetTime</th>
+                    <th>PenaltyPos</th>
+                    <th>PenaltyNote</th>
+                </tr>
+            </thead>
+
+            <!-- SectorTime Entries -->
+            <tbody>
+                @{
+                    _lineCount = 1; // Initialize count
+                }
+                @foreach (var sect in _sectorTimesListUI.OrderBy(us => us.CreationTimeStamp)) // Sort and iterate over sector times
+                {
+                    <tr>
+                        <!-- SectorTime Selection with larger checkbox -->
+                        <td class="checkbox-column"><input type="checkbox" class="large-checkbox" @bind="sect.Selected" /></td>
+                        <!-- Line Count -->
+                        <td class="prog-column">@_lineCount</td>
+                        <!-- SectorTime Details Link -->
+                        <td><a href="/Masterdata/SectorTimeDetails/@sect.IdString">@sect.CompetitorNumber</a></td>
+                        <td>@sect.SectorName</td>
+                        <td>@sect.EntryTime.ToString(@"HH:mm:ss")</td>
+                        <td>@sect.ExitTime.ToString(@"HH:mm:ss")</td>
+                        <td>@sect.NetTime.ToString(@"hh\:mm\:ss\.fff")</td>
+                        <td>@sect.PenaltyTime.ToString(@"hh\:mm\:ss\.fff")</td>
+                        <td>@sect.TotalTime.ToString(@"hh\:mm\:ss\.fff")</td>
+                        <td>@sect.AchievedAverageSpeed.ToString("F2") km/h</td>
+                        <td>@sect.PenaltyPositions</td>
+                        <td>@sect.PenaltyNote</td>
+                    </tr>
+                    _lineCount = _lineCount + 1; // Increment count
+                }
+            </tbody>
+        </table>
+
+        <!-- Button Controls -->
+        <button type="button" class="btn btn-success" @onclick="() => NavigateToNewEntity()">New sector time</button> <!-- Navigate to New SectorTime -->
+        <button type="button" class="btn btn-danger" @onclick="() => ConfirmDeleteLines()">Delete Selected SectorTimes</button> <!-- Delete Selected SectorTimes -->
+        <button type="button" class="btn btn-warning" @onclick="() => ExportToCSV()">Export to CSV</button> <!-- Export to CSV -->
+
+    </form>
+}

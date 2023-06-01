@@ -1,0 +1,57 @@
+﻿@if (_isLoading)
+{
+    <!-- Loader Display -->
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+}
+else
+{
+    <!-- Table Display -->
+    <form>
+
+        <!-- SessionSector Table -->
+        <table class="table">
+            <thead>
+                <tr>
+                    <!-- Checkbox to toggle selection of all sessionSectors with larger size -->
+                    <th class="checkbox-column"><input type="checkbox" class="large-checkbox" @bind="_selectAll" @onclick="ToggleSelectAll" /></th>
+                    <!-- Headers for line count and sessionSector name -->
+                    <th class="prog-column"># Prog.</th>
+                    <th>Session</th>
+                    <th>Sector</th>
+                    <th>Enabled</th>
+                </tr>
+            </thead>
+
+            <!-- SessionSector Entries -->
+            <tbody>
+                @{
+                    _lineCount = 1; // Initialize count
+                }
+                @foreach (var sc in _sessionSectorListUI.OrderBy(us => us.CreationTimeStamp)) // Sort and iterate over sessionSectors
+                {
+                    <tr>
+                        <!-- SessionSector Selection with larger checkbox -->
+                        <td class="checkbox-column"><input type="checkbox" class="large-checkbox" @bind="sc.Selected" /></td>
+                        <!-- Line Count -->
+                        <td class="prog-column">@_lineCount</td>
+                        <!-- SessionSector Details Link -->
+                        <td><a href="/Masterdata/UserDetails/@sc.IdString">@sc.SessionName</a></td>
+                        <td>@sc.SectorName</td>
+                        <td>@sc.RaceEnabled.ToString()</td>
+                    </tr>
+                    _lineCount = _lineCount + 1; // Increment count
+                }
+            </tbody>
+        </table>
+
+        <!-- Button Controls -->
+        <button type="button" class="btn btn-success" @onclick="() => NavigateToNewEntity()">New sessionSector</button> <!-- Navigate to New SessionSector -->
+        <button type="button" class="btn btn-danger" @onclick="() => ConfirmDeleteLines()">Delete Selected SessionSectors</button> <!-- Delete Selected SessionSectors -->
+        <button type="button" class="btn btn-warning" @onclick="() => ExportToCSV()">Export to CSV</button> <!-- Export to CSV -->
+
+    </form>
+}

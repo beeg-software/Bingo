@@ -31,7 +31,8 @@ namespace Bingo.UI.Shared.Components.MasterData
                     Id = cc.Id,
                     IdString = cc.Id.ToString(),
                     Name = cc.Name,
-                    CreatedTimeStamp = cc.CreationTimeStamp
+                    CreationTimeStamp = cc.CreationTimeStamp,
+                    LastUpdateTimeStamp = cc.LastUpdateTimeStamp
                 });
             }
             _isLoading = false;
@@ -63,7 +64,7 @@ namespace Bingo.UI.Shared.Components.MasterData
 
         protected void NavigateToNewEntity()
         {
-            NavigationManager.NavigateTo($"/Masterdata/UserDetails/{Guid.Empty}");
+            NavigationManager.NavigateTo($"/Masterdata/CompetitorCategoryDetails/{Guid.Empty}");
         }
 
         // Delete categories operations, with confirmation dialog.
@@ -89,11 +90,12 @@ namespace Bingo.UI.Shared.Components.MasterData
         // Nested class to represent a category in the UI.
         protected class CompetitorCategoryListUI
         {
-            public Guid Id { get; set; }
-            public string IdString { get; set; }
-            public string Name { get; set; }
-            public DateTime CreatedTimeStamp { get; set; }
-            public bool Selected { get; set; }
+            public Guid Id { get; set; } = Guid.Empty;
+            public string IdString { get; set; } = "";
+            public string Name { get; set; } = "";
+            public DateTime CreationTimeStamp { get; set; } = DateTime.MinValue;
+            public DateTime LastUpdateTimeStamp { get; set; } = DateTime.MinValue;
+            public bool Selected { get; set; } = false;
         }
     }
 }

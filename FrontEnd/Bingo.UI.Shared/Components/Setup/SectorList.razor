@@ -1,0 +1,62 @@
+﻿@if (_isLoading)
+{
+    <!-- Loader Display -->
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+}
+else
+{
+    <!-- Table Display -->
+    <form>
+
+        <!-- Sector Table -->
+        <table class="table">
+            <thead>
+                <tr>
+                    <!-- Checkbox to toggle selection of all sectors with larger size -->
+                    <th class="checkbox-column"><input type="checkbox" class="large-checkbox" @bind="_selectAll" @onclick="ToggleSelectAll" /></th>
+                    <!-- Headers for line count and sector name -->
+                    <th class="prog-column"># Prog.</th>
+                    <th>Name</th>
+                    <th>Length</th>
+                    <th>AverageSpeed</th>
+                    <th>MinTime</th>
+                    <th>MaxTime</th>
+                </tr>
+            </thead>
+
+            <!-- Sector Entries -->
+            <tbody>
+                @{
+                    _lineCount = 1; // Initialize count
+                }
+                @foreach (var sc in _sectorListUI.OrderBy(us => us.CreationTimeStamp)) // Sort and iterate over sectors
+                {
+                    <tr>
+                        <!-- Sector Selection with larger checkbox -->
+                        <td class="checkbox-column"><input type="checkbox" class="large-checkbox" @bind="sc.Selected" /></td>
+                        <!-- Line Count -->
+                        <td class="prog-column">@_lineCount</td>
+                        <!-- Sector Details Link -->
+                        <td><a href="/Masterdata/UserDetails/@sc.IdString">@sc.Name</a></td>
+                        <td>@sc.ImportName</td>
+                        <td>@sc.Length.ToString("F2") km</td>
+                        <td>@sc.TargetAverageSpeed.ToString("F2") km/h</td>
+                        <td>@sc.MinTime.ToString(@"hh\:mm\:ss\.fff")</td>
+                        <td>@sc.MaxTime.ToString(@"hh\:mm\:ss\.fff")</td>
+                    </tr>
+                    _lineCount = _lineCount + 1; // Increment count
+                }
+            </tbody>
+        </table>
+
+        <!-- Button Controls -->
+        <button type="button" class="btn btn-success" @onclick="() => NavigateToNewEntity()">New sector</button> <!-- Navigate to New Sector -->
+        <button type="button" class="btn btn-danger" @onclick="() => ConfirmDeleteLines()">Delete Selected Sectors</button> <!-- Delete Selected Sectors -->
+        <button type="button" class="btn btn-warning" @onclick="() => ExportToCSV()">Export to CSV</button> <!-- Export to CSV -->
+
+    </form>
+}

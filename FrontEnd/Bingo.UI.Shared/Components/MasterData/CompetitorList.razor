@@ -21,6 +21,7 @@ else
                     <!-- Headers for line count and competitor name -->
                     <th class="prog-column"># Prog.</th>
                     <th>Number</th>
+                    <th>Category</th>
                     <th>Name 1</th>
                     <th>Nationality</th>
                     <th>Team</th>
@@ -31,9 +32,9 @@ else
             <!-- Competitor Entries -->
             <tbody>
                 @{
-                    _lineCount = 1; // Initialize program count
+                    _lineCount = 1; // Initialize count
                 }
-                @foreach (var competitor in _competitorListUI.OrderBy(us => us.CreatedTimeStamp)) // Sort and iterate over competitors
+                @foreach (var competitor in _competitorListUI.OrderBy(us => us.CreationTimeStamp)) // Sort and iterate over competitors
                 {
                     <tr>
                         <!-- Competitor Selection with larger checkbox -->
@@ -42,12 +43,13 @@ else
                         <td class="prog-column">@_lineCount</td>
                         <!-- Competitor Details Link -->
                         <td><a href="/Masterdata/CompetitorDetails/@competitor.IdString">@competitor.Number</a></td>
+                        <td>@competitor.CompetitorCategoryName</td>
                         <td>@competitor.Name1</td>
                         <td>@competitor.Nationality</td>
                         <td>@competitor.Team</td>
                         <td>@competitor.Status</td>
                     </tr>
-                    _lineCount = _lineCount + 1; // Increment program count
+                    _lineCount = _lineCount + 1; // Increment count
                 }
             </tbody>
         </table>

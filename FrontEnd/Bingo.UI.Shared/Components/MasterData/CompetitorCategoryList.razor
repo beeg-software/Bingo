@@ -27,9 +27,9 @@ else
             <!-- CompetitorCategory Entries -->
             <tbody>
                 @{
-                    _lineCount = 1; // Initialize program count
+                    _lineCount = 1; // Initialize count
                 }
-                @foreach (var cat in _competitorCategoryListUI.OrderBy(us => us.CreatedTimeStamp)) // Sort and iterate over competitor categories
+                @foreach (var cat in _competitorCategoryListUI.OrderBy(us => us.CreationTimeStamp)) // Sort and iterate over competitor categories
                 {
                     <tr>
                         <!-- CompetitorCategory Selection with larger checkbox -->
@@ -39,7 +39,7 @@ else
                         <!-- CompetitorCategory Details Link -->
                         <td><a href="/Masterdata/CompetitorCategoryDetails/@cat.IdString">@cat.Name</a></td>
                     </tr>
-                    _lineCount = _lineCount + 1; // Increment program count
+                    _lineCount = _lineCount + 1; // Increment count
                 }
             </tbody>
         </table>

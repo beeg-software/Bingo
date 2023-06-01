@@ -9,11 +9,13 @@ namespace Bingo.UI.Shared.Components.MasterData
     public partial class CompetitorList
     {
         [Inject] public ICompetitorService CompetitorService { get; set; }
+        [Inject] public ICompetitorCategoryService CompetitorCategoryService { get; set; }
         [Inject] public NavigationManager NavigationManager { get; set; }
         [Inject] public IJSRuntime JSRuntime { get; set; }
 
         // Properties for component's internal state.
         protected List<Competitor> Competitors = new List<Competitor>();
+        protected List<CompetitorCategory> CompetitorCategories = new List<CompetitorCategory>();
         protected List<CompetitorListUI> _competitorListUI = new List<CompetitorListUI>();
         protected int _lineCount = 1;
         protected bool _selectAll;
@@ -24,13 +26,29 @@ namespace Bingo.UI.Shared.Components.MasterData
         {
             _isLoading = true;
             Competitors = await CompetitorService.GetCompetitorsAsync();
+            CompetitorCategories = await CompetitorCategoryService.GetCompetitorCategoriesAsync();
+
             foreach (var co in Competitors)
             {
+                var _localCategory = new CompetitorCategory();
+
+                if(co.CompetitorCategoryId != default(Guid)) 
+                {
+                    _localCategory = CompetitorCategories?.FirstOrDefault(cat => cat.Id == co.CompetitorCategoryId) ?? new CompetitorCategory { Id = Guid.Empty, Name = "######" };
+                }
+                else
+                {
+                    _localCategory = new CompetitorCategory { Id = Guid.Empty, Name = "######" };
+                }
+
                 _competitorListUI.Add(new CompetitorListUI
                 {
                     Id = co.Id,
                     IdString = co.Id.ToString(),
                     Number = co.Number,
+                    ImportNumber = co.ImportNumber,
+                    CompetitorCategoryId = _localCategory.Id,
+                    CompetitorCategoryName = _localCategory.Name,
                     Name1 = co.Name1,
                     Name2 = co.Name2,
                     Name3 = co.Name3,
@@ -40,7 +58,8 @@ namespace Bingo.UI.Shared.Components.MasterData
                     Boat = co.Boat,
                     Engine = co.Engine,
                     Status = co.Status,
-                    CreatedTimeStamp = co.CreationTimeStamp
+                    CreationTimeStamp = co.CreationTimeStamp,
+                    LastUpdateTimeStamp = co.LastUpdateTimeStamp
                 });
             }
             _isLoading = false;
@@ -50,11 +69,11 @@ namespace Bingo.UI.Shared.Components.MasterData
         protected async Task ExportToCSV()
         {
             var stringBuilder = new StringBuilder();
-            stringBuilder.AppendLine("\"Prog\",\"Number\",\"Nome1\",\"Nome2\",\"Nome3\",\"Nome4\",\"Nationality\",\"Team\",\"Boat\",\"Engine\",\"Status\"");
+            stringBuilder.AppendLine("\"Prog\",\"Number\",\"CompetitorCategory\",\"ImportNumber\",\"Nome1\",\"Nome2\",\"Nome3\",\"Nome4\",\"Nationality\",\"Team\",\"Boat\",\"Engine\",\"Status\"");
             int progCount = 1;
             foreach (var competitor in _competitorListUI.OrderBy(us => us.Id))
             {
-                stringBuilder.AppendLine($"\"{progCount}\",\"{competitor.Number}\",\"{competitor.Name1}\",\"{competitor.Name2}\",\"{competitor.Name3}\",\"{competitor.Name4}\",\"{competitor.Nationality}\",\"{competitor.Team}\",\"{competitor.Boat}\",\"{competitor.Engine}\",\"{competitor.Status}\"");
+                stringBuilder.AppendLine($"\"{progCount}\",\"{competitor.Number}\",\"{competitor.CompetitorCategoryName}\",\"{competitor.ImportNumber}\",\"{competitor.Name1}\",\"{competitor.Name2}\",\"{competitor.Name3}\",\"{competitor.Name4}\",\"{competitor.Nationality}\",\"{competitor.Team}\",\"{competitor.Boat}\",\"{competitor.Engine}\",\"{competitor.Status}\"");
                 progCount++;
             }
             await JSRuntime.InvokeVoidAsync("downloadCSV", "CompetitorList.csv", stringBuilder.ToString());
@@ -98,10 +117,13 @@ namespace Bingo.UI.Shared.Components.MasterData
         // Nested class to represent a competitor in the UI.
         protected class CompetitorListUI
         {
-            public Guid Id { get; set; }
-            public string IdString { get; set; }
-            public string Number { get; set; }
-            public string Name1 { get; set; }
+            public Guid Id { get; set; } = Guid.Empty;
+            public string IdString { get; set; } = "";
+            public string Number { get; set; } = "";
+            public string ImportNumber { get; set; } = "";
+            public Guid CompetitorCategoryId { get; set; } = Guid.Empty;
+            public string CompetitorCategoryName { get; set; } = "";
+            public string Name1 { get; set; } = "";
             public string Name2 { get; set; } = "";
             public string Name3 { get; set; } = "";
             public string Name4 { get; set; } = "";
@@ -110,8 +132,9 @@ namespace Bingo.UI.Shared.Components.MasterData
             public string Boat { get; set; } = "";
             public string Engine { get; set; } = "";
             public string Status { get; set; } = "";
-            public DateTime CreatedTimeStamp { get; set; }
-            public bool Selected { get; set; }
+            public DateTime CreationTimeStamp { get; set; } = DateTime.MinValue;
+            public DateTime LastUpdateTimeStamp { get; set; } = DateTime.MinValue;
+            public bool Selected { get; set; } = false;
         }
     }
 }
