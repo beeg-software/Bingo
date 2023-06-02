@@ -1,4 +1,5 @@
 ﻿@using Bingo.UI.Shared.UIElements.Input
+@using Bingo.Common.DomainModel.Setup
 
 <!-- Check if the SessionSector object is null, display a loading message if true -->
 @if (sese == null)
@@ -12,24 +13,25 @@ else
         <DataAnnotationsValidator />
 
         <div class="container">
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col-md-6">
-                    <CustomInputGuid @bind-Value="sese.Id" ValidationFor="@(() => sese.Id)" Label="Id" Id="sese_id" ReadOnly=true />
+                    <MudTextField @bind-Value="sese.Id" Label="Id" ReadOnly="true" Variant="Variant.Filled" />
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <MudAutocomplete T="Session" Label="Session" @bind-Value="LocalSession" SearchFunc="@SearchSession" ToStringFunc="@(e=> e==null?null : $"{e.Name}")" Variant="Variant.Outlined" />
+                </div>
+                <div class="col-md-6">
+                    <MudAutocomplete T="Sector" Label="Sector" @bind-Value="LocalSector" SearchFunc="@SearchSector" ToStringFunc="@(e=> e==null?null : $"{e.Name}")" Variant="Variant.Outlined" />
+
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    <CustomInputNullableGuid @bind-Value="sese.SessionId" ValidationFor="@(() => sese.SessionId)" Label="SessionId" Id="sese_sessionid" />
-                </div>
-                <div class="col-md-6">
-                    <CustomInputNullableGuid @bind-Value="sese.SectorId" ValidationFor="@(() => sese.SectorId)" Label="SectorId" Id="sese_sectorid" />
+                    <MudCheckBox @bind-Checked="@sese.RaceEnabled" Label="RaceEnabled" Color="Color.Primary"></MudCheckBox>
                 </div>
             </div>
-@*            <div class="row">
-                <div class="col-md-6">
-                    <CustomInputText @bind-Value="sese.RaceEnabled" ValidationFor="@(() => sese.RaceEnabled)" Label="RaceEnabled" Id="sese_raceenabled" ReadOnly=true />
-                </div>
-            </div>*@
             <!-- Save button -->
             <div class="row">
                 <div class="col-md-6">

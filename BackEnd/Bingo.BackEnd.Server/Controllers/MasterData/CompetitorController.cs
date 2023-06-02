@@ -96,7 +96,7 @@ namespace Bingo.BackEnd.Server.Controllers.MasterData
 
             updatedCompetitor.Number = request.Number;
             updatedCompetitor.ImportNumber = request.ImportNumber;
-            updatedCompetitor.CompetitorCategoryId = updatedCompetitor.CompetitorCategoryId;
+            updatedCompetitor.CompetitorCategoryId = request.CompetitorCategoryId;
             if (!string.IsNullOrWhiteSpace(request.Name1))
             {
                 updatedCompetitor.Name1 = request.Name1;

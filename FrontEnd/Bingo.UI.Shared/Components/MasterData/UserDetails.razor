@@ -12,14 +12,14 @@ else
         <DataAnnotationsValidator />
 
         <div class="container">
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col-md-6">
-                    <CustomInputGuid @bind-Value="us.Id" ValidationFor="@(() => us.Id)" Label="Id" Id="us_id" ReadOnly=true />
+                    <MudTextField @bind-Value="us.Id" Label="Id" ReadOnly="true" Variant="Variant.Filled" />
                 </div>
             </div>
-            <div class="row">
+            <div class="row mb-4">
                 <div class="col-md-6">
-                    <CustomInputText @bind-Value="us.Name" ValidationFor="@(() => us.Name)" Label="Name" Id="us_name" />
+                    <MudTextField @bind-Value="us.Name" Label="Name" Variant="Variant.Outlined" />
                 </div>
             </div>
             <!-- Save button -->

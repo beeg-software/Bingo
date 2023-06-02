@@ -12,33 +12,33 @@ else
         <DataAnnotationsValidator />
 
         <div class="container">
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col-md-6">
-                    <CustomInputGuid @bind-Value="sc.Id" ValidationFor="@(() => sc.Id)" Label="Id" Id="sc_id" ReadOnly=true />
+                    <MudTextField @bind-Value="sc.Id" Label="Id" ReadOnly="true" Variant="Variant.Filled" />
                 </div>
             </div>
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col-md-6">
-                    <CustomInputText @bind-Value="sc.Name" ValidationFor="@(() => sc.Name)" Label="Name" Id="sc_name" />
+                    <MudTextField @bind-Value="sc.Name" Label="Name" Variant="Variant.Outlined" />
                 </div>
                 <div class="col-md-6">
-                    <CustomInputText @bind-Value="sc.ImportName" ValidationFor="@(() => sc.ImportName)" Label="ImportName" Id="sc_importname" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <CustomInputNullableNumber @bind-Value="sc.Length" ValidationFor="@(() => sc.Length)" Label="Length" Id="sc_length" />
-                </div>
-                <div class="col-md-6">
-                    <CustomInputNullableNumber @bind-Value="sc.TargetAverageSpeed" ValidationFor="@(() => sc.TargetAverageSpeed)" Label="TargetAverageSpeed" Id="sc_targetaveragespeed" />
+                    <MudTextField @bind-Value="sc.ImportName" Label="ImportName" Variant="Variant.Outlined" />
                 </div>
             </div>
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col-md-6">
-                    <CustomInputNullableTimeSpan @bind-Value="sc.MinTimeTicks" ValidationFor="@(() => sc.MinTimeTicks)" Label="MinTime" Id="sc_mintimeticks" />
+                    <MudNumericField @bind-Value="sc.Length" Label="Length" Step=".1M" Min="0" Max="500" Adornment="Adornment.End" AdornmentText="km"  Variant="Variant.Outlined" />
                 </div>
                 <div class="col-md-6">
-                    <CustomInputNullableTimeSpan @bind-Value="sc.MaxTimeTicks" ValidationFor="@(() => sc.MaxTimeTicks)" Label="MaxTime" Id="sc_maxtimeticks" />
+                    <MudNumericField @bind-Value="sc.TargetAverageSpeed" Label="TargetAverageSpeed" Step=".01M" Min="0" Max="400" Adornment="Adornment.End" AdornmentText="km/h" Variant="Variant.Outlined" />
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <MudTextField @bind-Value="_stringMinTime" Label="MinTime" DebounceInterval="500" OnDebounceIntervalElapsed="RefreshTimes" TextUpdateSuppression="false" Variant="Variant.Outlined" />
+                </div>
+                <div class="col-md-6">
+                    <MudTextField @bind-Value="_stringMaxTime" Label="MaxTime" DebounceInterval="500" OnDebounceIntervalElapsed="RefreshTimes" TextUpdateSuppression="false" Variant="Variant.Outlined" />
                 </div>
             </div>
             <!-- Save button -->

@@ -1,4 +1,5 @@
 ﻿@using Bingo.UI.Shared.UIElements.Input
+@using Bingo.Common.DomainModel.MasterData
 
 <!-- Check if the Competitor object is null, display a loading message if true -->
 @if (comp == null)
@@ -12,52 +13,57 @@ else
         <DataAnnotationsValidator />
 
         <div class="container">
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col-md-6">
-                    <CustomInputGuid @bind-Value="comp.Id" ValidationFor="@(() => comp.Id)" Label="Id" Id="comp_id" ReadOnly=true />
+                    <MudTextField @bind-Value="comp.Id" Label="Id" ReadOnly="true" Variant="Variant.Filled" />
                 </div>
             </div>
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col-md-6">
-                    <CustomInputNullableGuid @bind-Value="comp.CompetitorCategoryId" ValidationFor="@(() => comp.CompetitorCategoryId)" Label="CompetitorCategoryId" Id="comp_competitorcategoryid" />
+                    <MudAutocomplete T="CompetitorCategory" Label="Category" @bind-Value="LocalCompetitorCategory" SearchFunc="@SearchCompetitorCategory" ToStringFunc="@(e=> e==null?null : $"{e.Name}")" Variant="Variant.Outlined" />
                 </div>
                 <div class="col-md-3">
-                    <CustomInputText @bind-Value="comp.Number" ValidationFor="@(() => comp.Number)" Label="Number" Id="comp_number" />
+                    <MudTextField @bind-Value="comp.Number" Label="Number" Variant="Variant.Outlined" />
                 </div>
                 <div class="col-md-3">
-                    <CustomInputText @bind-Value="comp.ImportNumber" ValidationFor="@(() => comp.ImportNumber)" Label="ImportNumber" Id="comp_importnumber" />
+                    <MudTextField @bind-Value="comp.ImportNumber" Label="ImportNumber" Variant="Variant.Outlined" />
                 </div>
             </div>
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col-md-6">
-                    <CustomInputText @bind-Value="comp.Name1" ValidationFor="@(() => comp.Name1)" Label="Name1" Id="comp_name1" />
+                    <MudTextField @bind-Value="comp.Name1" Label="Name1" Variant="Variant.Outlined" />
                 </div>
                 <div class="col-md-6">
-                    <CustomInputText @bind-Value="comp.Name2" ValidationFor="@(() => comp.Name2)" Label="Name2" Id="comp_name2" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <CustomInputText @bind-Value="comp.Name3" ValidationFor="@(() => comp.Name3)" Label="Name3" Id="comp_name3" />
-                </div>
-                <div class="col-md-6">
-                    <CustomInputText @bind-Value="comp.Name4" ValidationFor="@(() => comp.Name4)" Label="Name4" Id="comp_name4" />
+                    <MudTextField @bind-Value="comp.Name2" Label="Name2" Variant="Variant.Outlined" />
                 </div>
             </div>
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col-md-6">
-                    <CustomInputText @bind-Value="comp.Team" ValidationFor="@(() => comp.Team)" Label="Team" Id="comp_team" />
+                    <MudTextField @bind-Value="comp.Name3" Label="Name3" Variant="Variant.Outlined" />
                 </div>
                 <div class="col-md-6">
-                    <CustomInputText @bind-Value="comp.Boat" ValidationFor="@(() => comp.Boat)" Label="Boat" Id="comp_boat" />
+                    <MudTextField @bind-Value="comp.Name4" Label="Name4" Variant="Variant.Outlined" />
                 </div>
             </div>
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col-md-6">
-                    <CustomInputText @bind-Value="comp.Engine" ValidationFor="@(() => comp.Engine)" Label="Engine" Id="comp_engine" />
+                    <MudTextField @bind-Value="comp.Nationality" Label="Nationality" Variant="Variant.Outlined" />
                 </div>
                 <div class="col-md-6">
-                    <CustomInputText @bind-Value="comp.Status" ValidationFor="@(() => comp.Status)" Label="Status" Id="comp_status" />
+                    <MudTextField @bind-Value="comp.Team" Label="Team" Variant="Variant.Outlined" />
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <MudTextField @bind-Value="comp.Boat" Label="Boat" Variant="Variant.Outlined" />
+                </div>
+                <div class="col-md-6">
+                    <MudTextField @bind-Value="comp.Engine" Label="Engine" Variant="Variant.Outlined" />
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <MudTextField @bind-Value="comp.Status" Label="Status" Variant="Variant.Outlined" />
                 </div>
             </div>
             <!-- Save button -->

@@ -148,7 +148,7 @@ namespace Bingo.UI.Shared.Components.Timing
                 }
                 else
                 {
-                    _stringPenaltyTime = _penaltyTime.ToString(@"HH\:mm\:ss\.fff");
+                    _stringPenaltyTime = $"{_penaltyTime.Hours:00}:{_penaltyTime.Minutes:00}:{_penaltyTime.Seconds:00}.{_penaltyTime.Milliseconds:000}";
                 }
             }
 
