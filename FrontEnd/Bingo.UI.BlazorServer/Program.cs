@@ -1,6 +1,7 @@
 using Bingo.UI.Shared.Services.MasterData;
 using Bingo.UI.Shared.Services.Setup;
 using Bingo.UI.Shared.Services.Timing;
+using MudBlazor.Services;
 
 // Create a WebApplication builder
 var builder = WebApplication.CreateBuilder(args);
@@ -16,7 +17,7 @@ builder.Services.AddScoped<ISessionSectorService, SessionSectorService>();
 builder.Services.AddScoped<ISessionService, SessionService>();
 builder.Services.AddScoped<ISectorTimeService, SectorTimeService>();
 
-
+builder.Services.AddMudServices();
 
 // Retrieve the API configuration and validate the base address
 var apiConfigurationSection = builder.Configuration.GetSection("ApiConfiguration");

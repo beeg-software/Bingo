@@ -1,4 +1,6 @@
 ﻿@using Bingo.UI.Shared.UIElements.Input
+@using Bingo.Common.DomainModel.MasterData
+@using Bingo.Common.DomainModel.Setup
 
 <!-- Check if the SectorTime object is null, display a loading message if true -->
 @if (sectim == null)
@@ -14,54 +16,60 @@ else
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <CustomInputGuid @bind-Value="sectim.Id" ValidationFor="@(() => sectim.Id)" Label="Id" Id="sectim_id" ReadOnly=true />
+                    <MudTextField @bind-Value="sectim.Id" Label="Id" ReadOnly="true" Variant="Variant.Outlined" />
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-9">
-                    <CustomInputNullableGuid @bind-Value="sectim.CompetitorId" ValidationFor="@(() => sectim.CompetitorId)" OnChange="RefreshTimes" Label="CompetitorId" Id="sectim_competitorid" />
-                </div>
                 <div class="col-md-3">
-                    <CustomInputText @bind-Value="_localCompetitor.Number" ValidationFor="@(() => _localCompetitor.Number)" Label="CompetitorNumber" Id="sectim_competitornumber" ReadOnly=true />
+                    <MudAutocomplete T="Competitor" Label="Competitor" @bind-Value="LocalCompetitor" SearchFunc="@SearchCompetitor" ToStringFunc="@(e=> e==null?null : $"({e.Number}) {e.Name1}")" />
+                </div>
+                <div class="col-md-4">
+                    <MudTextField @bind-Value="sectim.CompetitorId" Label="CompetitorId" ReadOnly="true" Variant="Variant.Outlined" />
+                </div>
+                <div class="col-md-2">
+                    <MudNumericField @bind-Value="LocalCompetitor.Number" Label="CompetitorNumber" HideSpinButtons="true" ReadOnly="true" Variant="Variant.Outlined" />
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-9">
-                    <CustomInputNullableGuid @bind-Value="sectim.SectorId" ValidationFor="@(() => sectim.SectorId)" OnChange="RefreshTimes" Label="SectorId" Id="sectim_sectimorid" />
+                <div class="col-md-4">
+                    <MudAutocomplete T="Sector" Label="Sector" @bind-Value="LocalSector" SearchFunc="@SearchSector" ToStringFunc="@(e=> e==null?null : $"{e.Name}")" />
                 </div>
-                <div class="col-md-3">
-                    <CustomInputText @bind-Value="_localSector.Name" ValidationFor="@(() => _localSector.Name)" Label="SectorName" Id="sectim_sectorname" ReadOnly=true />
+                <div class="col-md-4">
+                    <MudTextField @bind-Value="sectim.SectorId" Label="SectorId" ReadOnly="true" Variant="Variant.Outlined" />
+                </div>
+                <div class="col-md-2">
+                    <MudTextField @bind-Value="LocalSector.Name" Label="SectorName" ReadOnly="true" Variant="Variant.Outlined" />
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    <CustomInputDateTime @bind-Value="sectim.EntryTime" ValidationFor="@(() => sectim.EntryTime)" OnChange="RefreshTimes" Label="EntryTime" Id="sectim_entrytime" />
+                    <MudTextField @bind-Value="_localEntryTime" Label="EntryTime" DebounceInterval="500" OnDebounceIntervalElapsed="RefreshTimes" TextUpdateSuppression="false" Variant="Variant.Outlined" />
                 </div>
                 <div class="col-md-6">
-                    <CustomInputDateTime @bind-Value="sectim.ExitTime" ValidationFor="@(() => sectim.ExitTime)" OnChange="RefreshTimes" Label="ExitTime" Id="sectim_exittime" />
+                    <MudTextField @bind-Value="_localExitTime" Label="ExitTime" DebounceInterval="500" OnDebounceIntervalElapsed="RefreshTimes" TextUpdateSuppression="false" Variant="Variant.Outlined" />
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-4">
-                    <CustomInputTimeSpan @bind-Value="_netTimeTicks" ValidationFor="@(() => _netTimeTicks)" Label="NetTime" Id="sectim_nettime" ReadOnly=true />
+                    <MudTextField @bind-Value="_stringNetTime" Label="NetTime" ReadOnly="true" Variant="Variant.Outlined" />
                 </div>
                 <div class="col-md-4">
-                    <CustomInputNullableTimeSpan @bind-Value="sectim.PenaltyTimeTicks" ValidationFor="@(() => sectim.PenaltyTimeTicks)" OnChange="RefreshTimes" Label="Tempo penalità" Id="sectim_penaltytimeticks" />
+                    <MudTextField @bind-Value="_stringPenaltyTime" Label="PenaltyTime" DebounceInterval="500" OnDebounceIntervalElapsed="RefreshTimes" TextUpdateSuppression="false" Variant="Variant.Outlined" />
                 </div>
                 <div class="col-md-4">
-                    <CustomInputTimeSpan @bind-Value="_totalTimeTicks" ValidationFor="@(() => _totalTimeTicks)" Label="TotalTime" Id="sectim_totaltime" ReadOnly=true />
+                    <MudTextField @bind-Value="_stringTotTime" Label="TotalTime" ReadOnly="true" Variant="Variant.Outlined" />
                 </div>
             </div>
             <div class="row">
-            <div class="col-md-4">
-                <CustomInputNumber @bind-Value="_avgSpeed" ValidationFor="@(() => _avgSpeed)" Label="AvgSpeed" Id="sectim_achievedaveragespeed" UnitAppend="km/h" ReadOnly=true />
-            </div>
-            <div class="col-md-4">
-                <CustomInputNullableInt @bind-Value="sectim.PenaltyPositions" ValidationFor="@(() => sectim.PenaltyPositions)" Label="PenaltyPositions" Id="sectim_penaltypositions" UnitPrepend="Penalty Positions" />
-            </div>
-            <div class="col-md-4">
-                <CustomInputText @bind-Value="sectim.PenaltyNote" ValidationFor="@(() => sectim.PenaltyNote)" Label="PenaltyNote" Id="sectim_penaltynote" />
-            </div>
+                <div class="col-md-4">
+                    <MudTextField @bind-Value="_avgSpeed" Label="AvgSpeed" Adornment="Adornment.End" AdornmentText="km/h" ReadOnly="true" Variant="Variant.Outlined" />
+                </div>
+                <div class="col-md-4">
+                     <MudNumericField @bind-Value="sectim.PenaltyPositions" Label="PenaltyPositions" Variant="Variant.Outlined" />
+                </div>
+                <div class="col-md-4">
+                     <MudTextField @bind-Value="sectim.PenaltyNote" Label="PenaltyNote" Variant="Variant.Outlined" />
+                </div>
             </div>
             <!-- Save button -->
             <div class="row">

@@ -4,6 +4,7 @@ using Bingo.UI.Shared.Services.Setup;
 using Bingo.UI.Shared.Services.Timing;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using MudBlazor.Services;
 
 // Create a WebAssemblyHostBuilder and configure root components
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -31,7 +32,7 @@ builder.Services.AddScoped<ISessionSectorService, SessionSectorService>();
 builder.Services.AddScoped<ISessionService, SessionService>();
 builder.Services.AddScoped<ISectorTimeService, SectorTimeService>();
 
-
+builder.Services.AddMudServices();
 
 // Build and run the Blazor WebAssembly app
 await builder.Build().RunAsync();

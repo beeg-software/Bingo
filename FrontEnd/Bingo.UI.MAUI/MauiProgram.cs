@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Bingo.UI.Shared.Services.MasterData;
 using Bingo.UI.Shared.Services.Setup;
 using Bingo.UI.Shared.Services.Timing;
+using MudBlazor.Services;
 
 namespace Bingo.UI.MAUI
 {
@@ -52,6 +53,8 @@ namespace Bingo.UI.MAUI
             builder.Services.AddScoped<ISessionSectorService, SessionSectorService>();
             builder.Services.AddScoped<ISessionService, SessionService>();
             builder.Services.AddScoped<ISectorTimeService, SectorTimeService>();
+
+            builder.Services.AddMudServices();
 
             return builder.Build();
         }
