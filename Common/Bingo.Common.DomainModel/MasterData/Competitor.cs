@@ -9,7 +9,7 @@ namespace Bingo.Common.DomainModel.MasterData
         public Guid Id { get; set; }
 
         [Required, MaxLength(15, ErrorMessage = "Lunghezza massima del numero di gara è 20 caratteri")]
-        public string Number { get; set; }
+        public string Number { get; set; } = "";
 
         [MaxLength(20, ErrorMessage = "Lunghezza massima del numero di gara da import è 20 caratteri")]
         public string? ImportNumber { get; set; }

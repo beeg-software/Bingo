@@ -1,0 +1,83 @@
+﻿@using Bingo.Common.DomainModel.Setup
+@using Bingo.Common.DomainModel.Timing
+
+@if (_isLoading)
+{
+    <!-- Loader Display -->
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+}
+else
+{
+    <table class="table table-sm table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>N.</th>
+                @foreach (Sector sect in Sectors)
+                {
+                    <th>T.Inizio @sect.ImportName</th>
+                    <th>T.Fine @sect.ImportName</th>
+                    <th>T.Netto @sect.ImportName</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (TimingSheetListUI stat in _timingSheetListUI)
+            {
+                <tr>
+                    <td><b>@stat.CompetitorNumber</b></td>
+                    @foreach (Sector sect in Sectors)
+                    {
+                        @if (stat.SectorsCollection.Any(sc => sc.SectorId == sect.Id))
+                        {
+                            @foreach (SectorTime sc in stat.SectorsCollection.FindAll(sc => sc.SectorId == sect.Id))
+                            {
+                                var NetTime = TimeSpan.Zero;
+                                @if (sc.ExitTime.TimeOfDay != TimeSpan.Zero && sc.EntryTime.TimeOfDay != TimeSpan.Zero)
+                                {
+                                    NetTime = sc.ExitTime - sc.EntryTime;
+                                }
+
+                                if (sc.EntryTime.TimeOfDay != TimeSpan.Zero)
+                                {
+                                    <td>@sc.EntryTime.ToString(@"HH:mm:ss")</td>
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
+
+                                if (sc.ExitTime.TimeOfDay != TimeSpan.Zero)
+                                {
+                                    <td>@sc.ExitTime.ToString(@"HH:mm:ss")</td>
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
+
+                                if (NetTime != TimeSpan.Zero)
+                                {
+                                    <td>@NetTime.ToString(@"hh\:mm\:ss\.fff")</td>
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
+                            }
+                        }
+                        else
+                        {
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        }
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+}

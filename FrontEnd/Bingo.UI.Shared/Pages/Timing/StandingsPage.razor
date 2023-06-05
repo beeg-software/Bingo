@@ -1,0 +1,77 @@
+﻿@page "/Timing/Standings/{Session:guid}"
+@using Bingo.UI.Shared.Components.Timing
+@using Bingo.Common.DomainModel.MasterData
+@inject ICompetitorCategoryService CompetitorCategoryService
+
+<PageTitle>Standings</PageTitle>
+
+<h3 @ondblclick="ToggleFull">Standings</h3>
+
+@if (_isLoading)
+{
+    <!-- Loader Display -->
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+}
+else
+{
+    @if (_selectVis)
+    {
+        <MudAutocomplete T="CompetitorCategory" Label="Seleziona Categoria" @bind-Value="LocalCompetitorCategory" SearchFunc="@SearchCompetitorCategory" ToStringFunc="@(e=> e==null?null : $"{e.Name}")" Variant="Variant.Outlined" />
+    }
+    @*<Standings Session="@Session" Category="@LocalCompetitorCategory.Id" />*@
+}
+
+
+
+@code {
+    [Parameter] public Guid Session { get; set; } = Guid.Empty;
+    
+    protected bool _isLoading = true;
+    protected bool _selectVis = true;
+
+    private CompetitorCategory _localCompetitorCategory = new CompetitorCategory();
+    private CompetitorCategory LocalCompetitorCategory
+    {
+        get => _localCompetitorCategory;
+        set
+        {
+            if (value != null)
+            {
+                if (_localCompetitorCategory != value)
+                {
+                    _localCompetitorCategory = value;
+                }
+            }
+            else
+            {
+                _localCompetitorCategory = new CompetitorCategory();
+            }
+        }
+    }
+
+    protected List<CompetitorCategory> CompetitorCategories = new List<CompetitorCategory>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        CompetitorCategories = await CompetitorCategoryService.GetCompetitorCategoriesAsync();
+        _isLoading = false;
+    }
+
+    private void ToggleFull()
+    {
+        _selectVis = !_selectVis;
+    }
+
+    private async Task<IEnumerable<CompetitorCategory>> SearchCompetitorCategory(string value)
+    {
+        if (string.IsNullOrEmpty(value))
+            return CompetitorCategories;
+        var filteredSectors = CompetitorCategories.Where(c => c.Name?.Contains(value) == true);
+
+        return filteredSectors;
+    }
+}
